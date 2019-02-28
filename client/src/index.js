@@ -16,8 +16,8 @@ const history = createBrowserHistory();
 const initialState = {};
 
 const apiClient = axios.create({
-    baseURL: process.env.REACT_APP_SOLR_URL,
-    responseType: "application/json"
+    baseURL: process.env.REACT_APP_API_URL,
+    responseType: "text"
 });
 
 const store = configureStore(initialState, apiClient, history);

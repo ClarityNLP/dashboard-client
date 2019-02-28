@@ -38,7 +38,7 @@ export default class Card extends Component {
                             {toggle ? <FaCompress /> : <FaExpand />}
                         </button>
                     </header>
-                    <div className="card-content">{content}</div>
+                    <div className="card-content">{this.props.children}</div>
                     <div className="card-footer">
                         <div
                             className={

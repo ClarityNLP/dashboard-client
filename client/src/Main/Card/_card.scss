@@ -31,6 +31,14 @@
     &.documents {
         height: 50%;
         padding-bottom: 0.75rem;
+
+        .document_pie_chart {
+            height: 100%;
+
+            svg {
+                height: 100%;
+            }
+        }
     }
 
     &.library {

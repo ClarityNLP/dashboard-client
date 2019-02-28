@@ -27,7 +27,7 @@ export default function configureStore(initialState, apiClient, history) {
         )
     );
 
-    sagaMiddleware.run(redirectToOIDCSaga);
+    // sagaMiddleware.run(redirectToOIDCSaga);
 
     return store;
 }

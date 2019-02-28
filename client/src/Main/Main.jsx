@@ -1,22 +1,50 @@
 import React, { Component } from "react";
 import Navbar from "./Navbar";
 import Card from "./Card";
+import PieChart from "./PieChart";
 
 export default class Main extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            document_content: []
+        };
+    }
+
     componentDidMount() {
         this.props.setDocuments();
     }
 
-    getDocumentsContent = () => {
-        const docs = ["doc1", "doc2"];
+    componentDidUpdate(prevProps) {
+        if (prevProps.app.documents !== this.props.app.documents) {
+            this.setDocumentsContent();
+        }
+    }
 
-        return (
-            <ul>
-                {docs.map((doc, index) => {
-                    return <li key={"doc" + index}>{doc}</li>;
-                })}
-            </ul>
-        );
+    setDocumentsContent = () => {
+        const { documents } = this.props.app;
+        const data = [];
+
+        console.log(documents.length);
+
+        if (documents.length > 0) {
+            for (let i = 0; i < documents.length; i += 2) {
+                let name = documents[i];
+                let count = documents[i + 1];
+
+                data.push({
+                    title: name,
+                    value: count,
+                    color:
+                        "#" + Math.floor(Math.random() * 16777215).toString(16)
+                });
+            }
+        }
+
+        this.setState({
+            document_content: data
+        });
     };
 
     getLibraryContent = () => {
@@ -52,6 +80,8 @@ export default class Main extends Component {
     };
 
     render() {
+        const { document_content } = this.state;
+
         return (
             <React.Fragment>
                 <Navbar />
@@ -61,9 +91,26 @@ export default class Main extends Component {
                             <Card
                                 className="documents"
                                 heading="Documents"
-                                content={this.getDocumentsContent()}
                                 cta_label="Add Documents"
-                            />
+                            >
+                                <div className="document_pie_chart">
+                                    <PieChart
+                                        data={[5, 12, 8, 3, 10]}
+                                        radius={100}
+                                        hole={0}
+                                        labels={true}
+                                        percent={true}
+                                        colors={[
+                                            "#43A19E",
+                                            "#7B43A1",
+                                            "#F2317A",
+                                            "#FF9824",
+                                            "#58CF6C"
+                                        ]}
+                                        strokeWidth={3}
+                                    />
+                                </div>
+                            </Card>
                             <Card
                                 className="library"
                                 heading="Query Library"

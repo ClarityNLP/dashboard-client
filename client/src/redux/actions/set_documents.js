@@ -5,8 +5,7 @@ export const setDocuments = () => {
         type: SETTING_DOCUMENTS,
         payload: {
             request: {
-                url:
-                    "select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json",
+                url: "document_sources",
                 method: "get"
             }
         }

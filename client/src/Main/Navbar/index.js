@@ -18,8 +18,8 @@ export default class Navbar extends Component {
                         </div>
                     </div>
                     <div className="navbar-menu">
-                        <div class="navbar-start" />
-                        <div class="navbar-end">
+                        <div className="navbar-start" />
+                        <div className="navbar-end">
                             <div className="navbar-item">
                                 <a href="/">
                                     <FaCog />
