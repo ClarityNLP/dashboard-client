@@ -2,59 +2,125 @@ import React, { Component } from "react";
 import Slice from "./Slice";
 
 export default class PieChart extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            sum: 0,
+            slices: [],
+            legend: []
+        };
+    }
+
+    componentDidUpdate(prevProps) {
+        const { data } = this.props;
+
+        if (data !== prevProps.data) {
+            const tmp_sum = data
+                .map(s => {
+                    return s.value;
+                })
+                .reduce((carry, current) => {
+                    return carry + current;
+                }, 0);
+
+            this.setState(
+                {
+                    sum: tmp_sum
+                },
+                this.getSlices
+            );
+        }
+    }
+
+    getSlices = () => {
+        const { sum } = this.state;
+        const { data, radius, hole } = this.props;
+        let startAngle = 0;
+        let tmp_slices = [];
+
+        for (let index in data) {
+            const slice = data[index];
+            const { value, color } = slice;
+            let angle, nextAngle;
+
+            nextAngle = startAngle;
+            angle = (value / sum) * 360;
+            startAngle += angle;
+
+            tmp_slices.push(
+                <Slice
+                    key={index}
+                    radius={radius}
+                    startAngle={nextAngle}
+                    angle={angle}
+                    fill={color}
+                />
+            );
+        }
+
+        this.setState(
+            {
+                slices: tmp_slices
+            },
+            this.getLegend
+        );
+    };
+
+    getLegend = () => {
+        const { sum } = this.state;
+        const { data } = this.props;
+        let tmp_legend = [];
+
+        tmp_legend = data.map(key => {
+            const { value, color, label } = key;
+            const percent = ((value / sum) * 100).toFixed(1);
+
+            return (
+                <div className="columns legend_row">
+                    <div
+                        className="column is-1"
+                        style={{ backgroundColor: color }}
+                    />
+                    <div className="column is-5">
+                        <p>{label}</p>
+                    </div>
+                    <div className="column is-1">
+                        <p>:</p>
+                    </div>
+                    <div className="column is-5">
+                        <p>{percent} %</p>
+                    </div>
+                </div>
+            );
+        });
+
+        this.setState({
+            legend: tmp_legend
+        });
+    };
+
     render() {
-        let colors = this.props.colors,
-            colorsLength = colors.length,
-            labels = this.props.labels,
-            hole = this.props.hole,
-            radius = this.props.radius,
-            diameter = radius * 2,
-            self = this,
-            sum = null,
-            startAngle = null,
-            d = null;
-
-        sum = this.props.data.reduce(function(carry, current) {
-            return carry + current;
-        }, 0);
-
-        startAngle = 0;
+        const { slices, legend } = this.state;
+        const diameter = 200;
 
         return (
-            <svg
-                width={diameter}
-                height={diameter}
-                viewBox={"0 0 " + diameter + " " + diameter}
-                xmlns="http://www.w3.org/2000/svg"
-                version="1.1"
-            >
-                {this.props.data.map(function(slice, sliceIndex) {
-                    var angle, nextAngle, percent;
-
-                    nextAngle = startAngle;
-                    angle = (slice / sum) * 360;
-                    percent = (slice / sum) * 100;
-                    startAngle += angle;
-
-                    return (
-                        <Slice
-                            key={sliceIndex}
-                            value={slice}
-                            percent={self.props.percent}
-                            percentValue={percent.toFixed(1)}
-                            startAngle={nextAngle}
-                            angle={angle}
-                            radius={radius}
-                            hole={radius - hole}
-                            trueHole={hole}
-                            showLabel={labels}
-                            fill={colors[sliceIndex % colorsLength]}
-                            stroke={self.props.stroke}
-                            strokeWidth={self.props.strokeWidth}
-                        />
-                    );
-                })}
-            </svg>
+            <div className="columns card_columns">
+                <div className="column is-half">
+                    <svg
+                        width={diameter}
+                        height={diameter}
+                        viewBox={"0 0 " + diameter + " " + diameter}
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.1"
+                    >
+                        {slices}
+                    </svg>
+                </div>
+                <div className="column is-half">
+                    <div className="pie_legend">{legend}</div>
+                </div>
+            </div>
         );
     }
 }

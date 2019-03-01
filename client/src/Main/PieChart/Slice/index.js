@@ -16,58 +16,36 @@ export default class Slice extends Component {
         super(props);
 
         this.state = {
-            path: "",
-            x: 0,
-            y: 0
+            path: ""
         };
     }
 
     componentDidMount() {
-        this.animate();
+        this.getPath(0);
     }
 
-    animate = () => {
-        this.draw(0);
-    };
+    getPath = s => {
+        const { angle, startAngle, radius } = this.props;
 
-    draw = s => {
-        let p = this.props,
-            tmp_path = [],
-            a,
-            b,
-            c,
-            self = this,
-            step;
+        let tmp_path = [];
+        let a, b;
+        let step = angle / (37.5 / 2);
 
-        step = p.angle / (37.5 / 2);
-
-        if (s + step > p.angle) {
-            s = p.angle;
+        if (s + step > angle) {
+            s = angle;
         }
 
         // Get angle points
-        a = getAnglePoint(
-            p.startAngle,
-            p.startAngle + s,
-            p.radius,
-            p.radius,
-            p.radius
-        );
-
-        b = getAnglePoint(
-            p.startAngle,
-            p.startAngle + s,
-            p.radius - p.hole,
-            p.radius,
-            p.radius
-        );
+        a = getAnglePoint(startAngle, startAngle + s, radius, radius, radius);
+        b = getAnglePoint(startAngle, startAngle + s, 0, radius, radius);
 
         tmp_path.push("M" + a.x1 + "," + a.y1);
+
         tmp_path.push(
             "A" +
-                p.radius +
+                radius +
                 "," +
-                p.radius +
+                radius +
                 " 0 " +
                 (s > 180 ? 1 : 0) +
                 ",1 " +
@@ -75,12 +53,14 @@ export default class Slice extends Component {
                 "," +
                 a.y2
         );
+
         tmp_path.push("L" + b.x2 + "," + b.y2);
+
         tmp_path.push(
             "A" +
-                (p.radius - p.hole) +
+                0 +
                 "," +
-                (p.radius - p.hole) +
+                0 +
                 " 0 " +
                 (s > 180 ? 1 : 0) +
                 ",0 " +
@@ -96,50 +76,18 @@ export default class Slice extends Component {
             path: tmp_path.join(" ")
         });
 
-        if (s < p.angle) {
-            self.draw(s + step);
-        } else if (p.showLabel) {
-            c = getAnglePoint(
-                p.startAngle,
-                p.startAngle + p.angle / 2,
-                p.radius / 2 + p.trueHole / 2,
-                p.radius,
-                p.radius
-            );
-
-            this.setState({
-                x: c.x2,
-                y: c.y2
-            });
+        if (s < angle) {
+            this.getPath(s + step);
         }
     };
 
     render() {
-        console.log("THIS:");
-        console.log(this);
+        const { path } = this.state;
+        const { fill } = this.props;
 
         return (
             <g>
-                <path
-                    d={this.state.path}
-                    fill={this.props.fill}
-                    stroke={this.props.stroke}
-                    strokeWidth={
-                        this.props.strokeWidth ? this.props.strokeWidth : 3
-                    }
-                />
-                {this.props.showLabel && this.props.percentValue > 5 ? (
-                    <text
-                        x={this.state.x}
-                        y={this.state.y}
-                        fill="#fff"
-                        textAnchor="middle"
-                    >
-                        {this.props.percent
-                            ? this.props.percentValue + "%"
-                            : this.props.value}
-                    </text>
-                ) : null}
+                <path d={path} fill={fill} />
             </g>
         );
     }

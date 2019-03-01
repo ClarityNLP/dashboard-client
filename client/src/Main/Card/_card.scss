@@ -16,11 +16,12 @@
         }
 
         .card-content {
-            overflow: scroll;
+            overflow: hidden;
             height: calc(100% - 110px);
         }
 
         .card-footer {
+            box-shadow: 0 -25px 30px #ffffff;
             height: 62px;
             position: absolute;
             width: 100%;
@@ -32,11 +33,16 @@
         height: 50%;
         padding-bottom: 0.75rem;
 
+        .card_columns {
+            height: 100%;
+        }
+
         .document_pie_chart {
             height: 100%;
 
             svg {
                 height: 100%;
+                width: 100%;
             }
         }
     }

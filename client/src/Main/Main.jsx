@@ -8,7 +8,7 @@ export default class Main extends Component {
         super(props);
 
         this.state = {
-            document_content: []
+            document_data: []
         };
     }
 
@@ -26,15 +26,13 @@ export default class Main extends Component {
         const { documents } = this.props.app;
         const data = [];
 
-        console.log(documents.length);
-
         if (documents.length > 0) {
             for (let i = 0; i < documents.length; i += 2) {
-                let name = documents[i];
+                let label = documents[i];
                 let count = documents[i + 1];
 
                 data.push({
-                    title: name,
+                    label: label,
                     value: count,
                     color:
                         "#" + Math.floor(Math.random() * 16777215).toString(16)
@@ -43,7 +41,7 @@ export default class Main extends Component {
         }
 
         this.setState({
-            document_content: data
+            document_data: data
         });
     };
 
@@ -80,7 +78,7 @@ export default class Main extends Component {
     };
 
     render() {
-        const { document_content } = this.state;
+        const { document_data } = this.state;
 
         return (
             <React.Fragment>
@@ -95,19 +93,8 @@ export default class Main extends Component {
                             >
                                 <div className="document_pie_chart">
                                     <PieChart
-                                        data={[5, 12, 8, 3, 10]}
+                                        data={document_data}
                                         radius={100}
-                                        hole={0}
-                                        labels={true}
-                                        percent={true}
-                                        colors={[
-                                            "#43A19E",
-                                            "#7B43A1",
-                                            "#F2317A",
-                                            "#FF9824",
-                                            "#58CF6C"
-                                        ]}
-                                        strokeWidth={3}
                                     />
                                 </div>
                             </Card>
