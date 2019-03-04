@@ -35,7 +35,7 @@ export default class PieChart extends Component {
 
     getSlices = () => {
         const { sum } = this.state;
-        const { data, radius, hole } = this.props;
+        const { data, radius } = this.props;
         let startAngle = 0;
         let tmp_slices = [];
 
@@ -50,7 +50,7 @@ export default class PieChart extends Component {
 
             tmp_slices.push(
                 <Slice
-                    key={index}
+                    key={"slice" + index}
                     radius={radius}
                     startAngle={nextAngle}
                     angle={angle}
@@ -72,26 +72,16 @@ export default class PieChart extends Component {
         const { data } = this.props;
         let tmp_legend = [];
 
-        tmp_legend = data.map(key => {
+        tmp_legend = data.map((key, i) => {
             const { value, color, label } = key;
             const percent = ((value / sum) * 100).toFixed(1);
 
             return (
-                <div className="columns legend_row">
-                    <div
-                        className="column is-1"
-                        style={{ backgroundColor: color }}
-                    />
-                    <div className="column is-5">
-                        <p>{label}</p>
-                    </div>
-                    <div className="column is-1">
-                        <p>:</p>
-                    </div>
-                    <div className="column is-5">
-                        <p>{percent} %</p>
-                    </div>
-                </div>
+                <tr key={"legend" + i}>
+                    <td style={{ backgroundColor: color }} />
+                    <td>{label}</td>
+                    <td>{percent} %</td>
+                </tr>
             );
         });
 
@@ -118,7 +108,11 @@ export default class PieChart extends Component {
                     </svg>
                 </div>
                 <div className="column is-half">
-                    <div className="pie_legend">{legend}</div>
+                    <div className="pie_legend">
+                        <table className="table is-narrow is-fullwidth">
+                            <tbody>{legend}</tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         );

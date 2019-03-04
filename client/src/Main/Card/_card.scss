@@ -21,39 +21,11 @@
         }
 
         .card-footer {
-            box-shadow: 0 -25px 30px #ffffff;
             height: 62px;
             position: absolute;
             width: 100%;
             bottom: 0;
         }
-    }
-
-    &.documents {
-        height: 50%;
-        padding-bottom: 0.75rem;
-
-        .card_columns {
-            height: 100%;
-        }
-
-        .document_pie_chart {
-            height: 100%;
-
-            svg {
-                height: 100%;
-                width: 100%;
-            }
-        }
-    }
-
-    &.library {
-        height: 50%;
-        padding-top: 0.75rem;
-    }
-
-    &.results {
-        height: 100%;
     }
 
     &.expanded {

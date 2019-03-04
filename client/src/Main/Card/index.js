@@ -17,7 +17,7 @@ export default class Card extends Component {
     };
 
     render() {
-        const { className, heading, content, cta_label } = this.props;
+        const { className, heading, cta_label } = this.props;
         const { toggle } = this.state;
 
         return (

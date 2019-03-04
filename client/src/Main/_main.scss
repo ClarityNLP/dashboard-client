@@ -1,6 +1,4 @@
 .dashboard_container {
-    @import "./Card/card";
-
     background-color: whitesmoke;
     margin-left: 100px;
     height: $full_height;
@@ -15,3 +13,9 @@
         height: 100%;
     }
 }
+
+@import "./Card/card";
+@import "./Navbar/navbar";
+@import "./Documents/documents";
+@import "./Library/library";
+@import "./Results/results";

@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
 const axios = require("axios");
-const util = require("util");
 
 const app = express();
 
@@ -19,11 +18,24 @@ app.get("/document_sources", (req, res) => {
         .get(url)
         .then(response => {
             res.send(response.data);
-            console.log("SOLR IS DONE\n");
         })
         .catch(err => {
             res.send(err);
-            console.log("SOLR IS DONE\n");
+        });
+});
+
+app.get("/jobs", (req, res) => {
+    const url = "http://18.220.133.76:5000/phenotype_jobs/ALL";
+
+    console.log("\nGETTING JOBS...");
+
+    axios
+        .get(url)
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(err => {
+            res.send(err);
         });
 });
 

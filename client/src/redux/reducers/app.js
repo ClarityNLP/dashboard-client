@@ -3,7 +3,10 @@ import * as types from "../actions/types";
 const initialState = {
     documents: [],
     documents_loading: false,
-    documents_error: {}
+    documents_error: {},
+    jobs: [],
+    jobs_loading: false,
+    jobs_error: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +27,23 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 documents_loading: false,
                 documents_error: action.payload.data
+            };
+        case types.SETTING_JOBS:
+            return {
+                ...state,
+                jobs_loading: true
+            };
+        case types.SETTING_JOBS_SUCCESS:
+            return {
+                ...state,
+                jobs_loading: false,
+                jobs: action.payload.data
+            };
+        case types.SETTING_JOBS_FAIL:
+            return {
+                ...state,
+                jobs_loading: false,
+                jobs_error: action.payload.data
             };
         default:
             return state;
