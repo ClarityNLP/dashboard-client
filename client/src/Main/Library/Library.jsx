@@ -55,6 +55,7 @@ export default class Library extends Component {
                 className="library"
                 heading="Query Library"
                 cta_label="Add Query"
+                cta_href={process.env.REACT_APP_QUERY_BUILDER_URL}
             >
                 <div className="library_container">
                     <table className="table is-striped">

@@ -68,7 +68,6 @@ export default class PieChart extends Component {
     };
 
     getLegend = () => {
-        const { sum } = this.state;
         const { data } = this.props;
         let tmp_legend = [];
 
@@ -95,7 +94,7 @@ export default class PieChart extends Component {
 
         return (
             <div className="columns card_columns">
-                <div className="column is-half">
+                <div className="column is-half is-narrow">
                     <svg
                         width={diameter}
                         height={diameter}
@@ -106,7 +105,7 @@ export default class PieChart extends Component {
                         {slices}
                     </svg>
                 </div>
-                <div className="column is-half">
+                <div className="column is-half is-narrow">
                     <div className="pie_legend">
                         <table className="table is-narrow is-fullwidth">
                             <tbody>{legend}</tbody>

@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
 const axios = require("axios");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
 
@@ -10,7 +13,8 @@ app.use(cors());
 
 app.get("/document_sources", (req, res) => {
     const url =
-        "http://18.220.133.76:8983/solr/sample/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
+        process.env.SOLR_API_URL +
+        "sample/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
 
     axios
         .get(url)
@@ -23,7 +27,7 @@ app.get("/document_sources", (req, res) => {
 });
 
 app.get("/jobs", (req, res) => {
-    const url = "http://18.220.133.76:5000/phenotype_jobs/ALL";
+    const url = process.env.CLARITY_NLP_URL + "phenotype_jobs/ALL";
 
     axios
         .get(url)

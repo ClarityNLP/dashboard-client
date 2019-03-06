@@ -17,7 +17,7 @@ export default class Card extends Component {
     };
 
     render() {
-        const { className, heading, cta_label } = this.props;
+        const { className, heading, cta_label, cta_href } = this.props;
         const { toggle } = this.state;
 
         return (
@@ -47,9 +47,12 @@ export default class Card extends Component {
                                     : "column is-4 is-offset-8"
                             }
                         >
-                            <button className="button is-primary is-fullwidth">
+                            <a
+                                href={cta_href}
+                                className="button is-primary is-fullwidth"
+                            >
                                 {cta_label}
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

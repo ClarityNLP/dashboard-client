@@ -20,7 +20,10 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 documents_loading: false,
-                documents: action.payload.data.facet_counts.facet_fields.source
+                documents: action.payload.data.facet_counts.facet_fields.source.slice(
+                    0,
+                    10
+                )
             };
         case types.SETTING_DOCUMENTS_FAIL:
             return {
