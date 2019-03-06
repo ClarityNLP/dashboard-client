@@ -12,8 +12,6 @@ app.get("/document_sources", (req, res) => {
     const url =
         "http://18.220.133.76:8983/solr/sample/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
 
-    console.log("\nCALLING SOLR...");
-
     axios
         .get(url)
         .then(response => {
@@ -26,8 +24,6 @@ app.get("/document_sources", (req, res) => {
 
 app.get("/jobs", (req, res) => {
     const url = "http://18.220.133.76:5000/phenotype_jobs/ALL";
-
-    console.log("\nGETTING JOBS...");
 
     axios
         .get(url)

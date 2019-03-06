@@ -58,12 +58,6 @@ export default class Library extends Component {
             >
                 <div className="library_container">
                     <table className="table is-striped">
-                        <thead>
-                            <tr>
-                                <th>Query Name</th>
-                                <th />
-                            </tr>
-                        </thead>
                         <tbody>{library_data}</tbody>
                     </table>
                 </div>

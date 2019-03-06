@@ -74,13 +74,12 @@ export default class PieChart extends Component {
 
         tmp_legend = data.map((key, i) => {
             const { value, color, label } = key;
-            const percent = ((value / sum) * 100).toFixed(1);
 
             return (
                 <tr key={"legend" + i}>
                     <td style={{ backgroundColor: color }} />
                     <td>{label}</td>
-                    <td>{percent} %</td>
+                    <td>{value}</td>
                 </tr>
             );
         });
