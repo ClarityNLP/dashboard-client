@@ -1,26 +1,16 @@
 {
     "name": "dashboard-client",
     "version": "1.0.0",
-    "description": "",
     "main": "index.js",
-    "author": "",
-    "license": "ISC",
     "dependencies": {
         "axios": "^0.18.0",
         "body-parser": "^1.18.3",
         "concurrently": "^4.1.0",
         "cors": "^2.8.5",
         "dotenv": "^6.2.0",
-        "express": "^4.16.4",
-        "nodemon": "^1.18.10"
+        "express": "^4.16.4"
     },
     "scripts": {
-        "server": "node index.js",
-        "client-install": "npm install --prefix client",
-        "client-build": "npm run build --prefix client",
-        "client": "npm start --prefix client",
-        "build": "npm run client-install && npm run client-build",
-        "dev": "concurrently \"nodemon index.js\" \"npm run client\"",
-        "start": "concurrently \"npm run server\" \"npm run client\""
+        "start": "node index.js"
     }
 }

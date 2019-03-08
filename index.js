@@ -11,6 +11,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get("/", (req, res) => {
+    res.send("Welcome to the ClarityNLP dashboard API!");
+});
+
 app.get("/document_sources", (req, res) => {
     const url =
         process.env.SOLR_API_URL +
