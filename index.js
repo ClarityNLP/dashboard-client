@@ -43,6 +43,19 @@ app.get("/jobs", (req, res) => {
         });
 });
 
+app.get("/library", (req, res) => {
+    const url = process.env.CLARITY_NLP_URL + "library";
+
+    axios
+        .get(url)
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
+
 const port = 8750;
 
 app.listen(port, () => {

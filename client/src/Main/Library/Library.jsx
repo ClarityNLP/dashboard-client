@@ -12,24 +12,24 @@ export default class Library extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.app.jobs !== this.props.app.jobs) {
+        if (prevProps.app.library !== this.props.app.library) {
             this.setContent();
         }
     }
 
     setContent = () => {
-        const { jobs } = this.props.app;
+        const { library } = this.props.app;
 
         let data = [];
 
-        data = jobs.map((job, i) => {
+        data = library.map((query, i) => {
             return (
                 <tr key={"query" + i} className="query_row">
-                    <td>{job.phenotype_name}</td>
+                    <td>{query.phenotype_name}</td>
                     <td
                         className="run_button"
                         onClick={() => {
-                            this.runNlPQL(job.nlpql);
+                            this.runNlPQL(query.nlpql_raw);
                         }}
                     >
                         <FaPlay />
@@ -58,7 +58,7 @@ export default class Library extends Component {
                 cta_href={process.env.REACT_APP_QUERY_BUILDER_URL}
             >
                 <div className="library_container">
-                    <table className="table is-striped">
+                    <table className="table is-fullwidth is-striped">
                         <tbody>{library_data}</tbody>
                     </table>
                 </div>

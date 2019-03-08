@@ -8,6 +8,8 @@ export default class Main extends Component {
     componentDidMount() {
         this.props.setDocuments();
         this.props.setJobs();
+        this.props.setLibrary();
+
         // setInterval(() => {
         //     this.props.setDocuments();
         //     this.props.setJobs();

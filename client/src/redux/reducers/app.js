@@ -6,7 +6,10 @@ const initialState = {
     documents_error: {},
     jobs: [],
     jobs_loading: false,
-    jobs_error: {}
+    jobs_error: {},
+    library: [],
+    library_loading: false,
+    library_error: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -47,6 +50,23 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 jobs_loading: false,
                 jobs_error: action.payload.data
+            };
+        case types.SETTING_LIBRARY:
+            return {
+                ...state,
+                library_loading: true
+            };
+        case types.SETTING_LIBRARY_SUCCESS:
+            return {
+                ...state,
+                library_loading: false,
+                library: action.payload.data
+            };
+        case types.SETTING_LIBRARY_FAIL:
+            return {
+                ...state,
+                library_loading: false,
+                libary_error: action.payload.data
             };
         default:
             return state;
