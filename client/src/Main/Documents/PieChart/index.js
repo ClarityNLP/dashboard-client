@@ -39,22 +39,33 @@ export default class PieChart extends Component {
         let startAngle = 0;
         let tmp_slices = [];
 
-        for (let index in data) {
-            const slice = data[index];
-            const { value, color } = slice;
-            let angle, nextAngle;
+        if (data.length > 1) {
+            for (let index in data) {
+                const slice = data[index];
+                const { value, color } = slice;
+                let angle, nextAngle;
 
-            nextAngle = startAngle;
-            angle = (value / sum) * 360;
-            startAngle += angle;
+                nextAngle = startAngle;
+                angle = (value / sum) * 360;
+                startAngle += angle;
 
+                tmp_slices.push(
+                    <Slice
+                        key={"slice" + index}
+                        radius={radius}
+                        startAngle={nextAngle}
+                        angle={angle}
+                        fill={color}
+                    />
+                );
+            }
+        } else {
             tmp_slices.push(
-                <Slice
-                    key={"slice" + index}
-                    radius={radius}
-                    startAngle={nextAngle}
-                    angle={angle}
-                    fill={color}
+                <circle
+                    cx={radius}
+                    cy={radius}
+                    r={radius}
+                    fill={data[0].color}
                 />
             );
         }

@@ -56,7 +56,7 @@ export default class Results extends Component {
                 cta_href={process.env.REACT_APP_RESULT_VIEWER_URL}
             >
                 <div className="results_container">
-                    <table className="table is-hoverable is-striped">
+                    <table className="table is-hoverable is-striped is-fullwidth">
                         <thead>
                             <tr>
                                 <th>Job Name</th>

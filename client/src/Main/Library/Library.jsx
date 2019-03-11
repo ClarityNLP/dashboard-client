@@ -25,9 +25,9 @@ export default class Library extends Component {
         data = library.map((query, i) => {
             return (
                 <tr key={"query" + i} className="query_row">
-                    <td>{query.phenotype_name}</td>
+                    <td>{query.nlpql_name}</td>
                     <td
-                        className="run_button"
+                        className="run_button has-text-right"
                         onClick={() => {
                             this.runNlPQL(query.nlpql_raw);
                         }}
@@ -58,7 +58,7 @@ export default class Library extends Component {
                 cta_href={process.env.REACT_APP_QUERY_BUILDER_URL}
             >
                 <div className="library_container">
-                    <table className="table is-fullwidth is-striped">
+                    <table className="table is-fullwidth is-striped is-fullwidth">
                         <tbody>{library_data}</tbody>
                     </table>
                 </div>
