@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import Library from "./Library";
+import { runNLPQL } from "../../redux/actions/run_nlpql";
 
 function mapStateToProps(state) {
     return {
@@ -9,7 +10,7 @@ function mapStateToProps(state) {
 
 const LibraryContainer = connect(
     mapStateToProps,
-    {}
+    { runNLPQL }
 )(Library);
 
 export default LibraryContainer;

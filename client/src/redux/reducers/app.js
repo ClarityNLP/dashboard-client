@@ -9,7 +9,8 @@ const initialState = {
     jobs_error: {},
     library: [],
     library_loading: false,
-    library_error: {}
+    library_error: {},
+    running_nlpql: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -67,6 +68,21 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 library_loading: false,
                 libary_error: action.payload.data
+            };
+        case types.RUNNING_NLPQL:
+            return {
+                ...state,
+                running_nlpql: true
+            };
+        case types.RUNNING_NLPQL_SUCCESS:
+            return {
+                ...state,
+                running_nlpql: false
+            };
+        case types.RUNNING_NLPQL_FAIL:
+            return {
+                ...state,
+                running_nlpql: false
             };
         default:
             return state;

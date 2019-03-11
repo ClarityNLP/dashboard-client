@@ -29,7 +29,7 @@ export default class Library extends Component {
                     <td
                         className="run_button has-text-right"
                         onClick={() => {
-                            this.runNlPQL(query.nlpql_raw);
+                            this.props.runNLPQL(query.nlpql_raw);
                         }}
                     >
                         <FaPlay />
@@ -41,10 +41,6 @@ export default class Library extends Component {
         this.setState({
             library_data: data
         });
-    };
-
-    runNlPQL = nlpql => {
-        console.log(nlpql);
     };
 
     render() {
