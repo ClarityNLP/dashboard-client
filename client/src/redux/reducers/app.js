@@ -33,7 +33,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 documents_loading: false,
-                documents_error: action.payload.data
+                documents_error: action.payload
             };
         case types.SETTING_JOBS:
             return {
@@ -50,7 +50,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 jobs_loading: false,
-                jobs_error: action.payload.data
+                jobs_error: action.payload
             };
         case types.SETTING_LIBRARY:
             return {
@@ -67,7 +67,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 library_loading: false,
-                libary_error: action.payload.data
+                libary_error: action.payload
             };
         case types.RUNNING_NLPQL:
             return {

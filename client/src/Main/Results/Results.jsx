@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Moment from "react-moment";
+import "moment-timezone";
 import Card from "../Card";
 
 export default class Results extends Component {
@@ -30,7 +32,24 @@ export default class Results extends Component {
                     }}
                 >
                     <td>{job.name}</td>
-                    <td>{job.status}</td>
+                    <td>
+                        <Moment
+                            format="D MMM YYYY HH:mm:ss"
+                            date={job.date_started}
+                        />
+                    </td>
+                    <td>
+                        {job.status === "COMPLETED" ? (
+                            <Moment
+                                duration={job.date_started}
+                                date={job.date_ended}
+                            />
+                        ) : (
+                            job.status
+                        )}
+                    </td>
+                    <td>[cohort size]</td>
+                    <td>[accuracy %]</td>
                 </tr>
             );
         });
@@ -59,8 +78,11 @@ export default class Results extends Component {
                     <table className="table is-hoverable is-striped is-fullwidth">
                         <thead>
                             <tr>
-                                <th>Job Name</th>
-                                <th>Job Status</th>
+                                <th>Job</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>n</th>
+                                <th>Accuracy</th>
                             </tr>
                         </thead>
                         <tbody>{job_data}</tbody>

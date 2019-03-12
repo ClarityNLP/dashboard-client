@@ -10,10 +10,10 @@ export default class Main extends Component {
         this.props.setJobs();
         this.props.setLibrary();
 
-        // setInterval(() => {
-        //     this.props.setDocuments();
-        //     this.props.setJobs();
-        // }, 5000);
+        setInterval(() => {
+            this.props.setDocuments();
+            this.props.setJobs();
+        }, 3000);
     }
 
     render() {
