@@ -7,9 +7,11 @@ export const runNLPQL = nlpql => {
             request: {
                 url: "nlpql",
                 method: "post",
-                data: nlpql,
+                data: {
+                    data: nlpql
+                },
                 headers: {
-                    "Content-Type": "text/plain"
+                    "Content-Type": "application/json"
                 }
             }
         }

@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 var cors = require("cors");
 const axios = require("axios");
 const dotenv = require("dotenv");
+const util = require("util");
 
 dotenv.config();
 
@@ -23,7 +24,9 @@ app.get("/document_sources", (req, res) => {
     axios
         .get(url)
         .then(response => {
-            res.send(response.data);
+            const data = response.data;
+
+            res.send(data);
         })
         .catch(err => {
             res.send(err);
@@ -36,7 +39,9 @@ app.get("/jobs", (req, res) => {
     axios
         .get(url)
         .then(response => {
-            res.send(response.data);
+            const data = response.data;
+
+            res.send(data);
         })
         .catch(err => {
             res.send(err);
@@ -49,7 +54,9 @@ app.get("/library", (req, res) => {
     axios
         .get(url)
         .then(response => {
-            res.send(response.data);
+            const data = response.data;
+
+            res.send(data);
         })
         .catch(err => {
             res.send(err);
@@ -58,16 +65,19 @@ app.get("/library", (req, res) => {
 
 app.post("/nlpql", (req, res) => {
     const url = process.env.NLP_API_URL + "/nlpql";
-
-    console.log(req);
+    const data = req.body.data;
 
     axios
-        .post(url, req.body)
-        .then(response => {
-            res.send(response.data);
+        .post(url, data, {
+            headers: {
+                "Content-Type": "text/plain"
+            }
         })
-        .catch(err => {
-            res.send(err);
+        .then(response => {
+            res.send(response);
+        })
+        .catch(error => {
+            res.send(error);
         });
 });
 

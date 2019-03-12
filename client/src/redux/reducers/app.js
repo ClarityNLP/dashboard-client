@@ -10,7 +10,9 @@ const initialState = {
     library: [],
     library_loading: false,
     library_error: {},
-    running_nlpql: false
+    running_nlpql: false,
+    nlpql_run_results: {},
+    nlpql_run_error: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -77,12 +79,14 @@ const reducer = (state = initialState, action) => {
         case types.RUNNING_NLPQL_SUCCESS:
             return {
                 ...state,
-                running_nlpql: false
+                running_nlpql: false,
+                nlpql_run_results: action.payload.data
             };
         case types.RUNNING_NLPQL_FAIL:
             return {
                 ...state,
-                running_nlpql: false
+                running_nlpql: false,
+                nlpql_run_error: action.payload
             };
         default:
             return state;
