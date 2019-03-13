@@ -5,6 +5,12 @@ dotenv.config();
 
 const wss = new WSS({ port: process.env.DASHBOARD_API_CONTAINER_PORT });
 
+console.log(
+    `Server running at http://localhost:${
+        process.env.DASHBOARD_API_CONTAINER_PORT
+    }`
+);
+
 wss.on("connection", socket => {
     broadcast();
 });
@@ -18,7 +24,7 @@ getJobs = () => {
             return { jobs: JSON.stringify(response.data) };
         })
         .catch(err => {
-            return { jobs: err.message };
+            return { jobs: { error: err.message } };
         });
 };
 
@@ -31,7 +37,7 @@ getLibrary = () => {
             return { library: JSON.stringify(response.data) };
         })
         .catch(err => {
-            return { library: err.message };
+            return { library: { error: err.message } };
         });
 };
 
@@ -50,7 +56,7 @@ getDocuments = () => {
             };
         })
         .catch(err => {
-            return { documents: err.message };
+            return { documents: { error: err.message } };
         });
 };
 

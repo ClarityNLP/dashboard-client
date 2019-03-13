@@ -13,19 +13,33 @@ export const setSocket = () => dispatch => {
     var socket = new WebSocket(process.env.REACT_APP_SOCKET_SERVER);
 
     // When data is received
-    socket.onmessage = function(event) {
-        console.log(JSON.parse(event.data));
-        dispatch({
-            type: SETTING_SOCKET_SUCCESS,
-            data: JSON.parse(event.data)
-        });
+    socket.onmessage = event => {
+        const data = JSON.parse(event.data);
+        let errors = {};
+
+        for (let key in data) {
+            let error = data[key].error;
+            errors[key] = error;
+        }
+
+        if (errors) {
+            dispatch({
+                type: SETTING_SOCKET_FAIL,
+                data: errors
+            });
+        } else {
+            dispatch({
+                type: SETTING_SOCKET_SUCCESS,
+                data: data
+            });
+        }
     };
 
     // A connection could not be made
-    socket.onerror = function(event) {
+    socket.onerror = event => {
         dispatch({
             type: SETTING_SOCKET_FAIL,
-            data: JSON.parse(event.data)
+            data: event
         });
     };
 };
