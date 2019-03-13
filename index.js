@@ -1,14 +1,16 @@
 var WSS = require("ws").Server;
 const axios = require("axios");
+const dotenv = require("dotenv");
+dotenv.config();
 
-const wss = new WSS({ port: 8750 });
+const wss = new WSS({ port: process.env.DASHBOARD_API_CONTAINER_PORT });
 
 wss.on("connection", socket => {
     broadcast();
 });
 
 getJobs = () => {
-    const url = "http://localhost:5000/phenotype_jobs/ALL";
+    const url = process.env.NLP_API_URL + "/phenotype_jobs/ALL";
 
     return axios
         .get(url)
@@ -21,7 +23,7 @@ getJobs = () => {
 };
 
 getLibrary = () => {
-    const url = "http://localhost:5000/library";
+    const url = process.env.NLP_API_URL + "/library";
 
     return axios
         .get(url)
@@ -35,7 +37,8 @@ getLibrary = () => {
 
 getDocuments = () => {
     const url =
-        "http://localhost:8983/solr/sample/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
+        process.env.NLP_SOLR_URL +
+        "/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
 
     return axios
         .get(url)
@@ -81,4 +84,4 @@ const broadcast = () => {
         });
 };
 
-setInterval(broadcast, 500);
+setInterval(broadcast, process.env.INTERVAL);

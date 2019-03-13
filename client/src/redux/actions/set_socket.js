@@ -10,10 +10,11 @@ export const setSocket = () => dispatch => {
     });
 
     // Open a connection
-    var socket = new WebSocket("ws://localhost:8750");
+    var socket = new WebSocket(process.env.REACT_APP_SOCKET_SERVER);
 
     // When data is received
     socket.onmessage = function(event) {
+        console.log(JSON.parse(event.data));
         dispatch({
             type: SETTING_SOCKET_SUCCESS,
             data: JSON.parse(event.data)
