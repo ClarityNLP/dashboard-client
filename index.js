@@ -20,64 +20,94 @@ app.get("/document_sources", (req, res) => {
     const url =
         process.env.NLP_SOLR_URL +
         "/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
+    let output = null;
 
-    axios
+    const promise = axios
         .get(url)
         .then(response => {
-            const data = response.data;
-
-            res.send(data);
+            output = response.data;
         })
         .catch(err => {
-            res.send(err);
+            output = err;
+        });
+
+    promise
+        .then(() => {
+            res.send(output);
+        })
+        .catch(() => {
+            res.send(output);
         });
 });
 
 app.get("/jobs", (req, res) => {
     const url = process.env.NLP_API_URL + "/phenotype_jobs/ALL";
+    let output = null;
 
-    axios
+    const promise = axios
         .get(url)
         .then(response => {
-            const data = response.data;
-
-            res.send(data);
+            output = response.data;
         })
         .catch(err => {
-            res.send(err);
+            output = err;
+        });
+
+    promise
+        .then(() => {
+            res.send(output);
+        })
+        .catch(() => {
+            res.send(output);
         });
 });
 
 app.get("/library", (req, res) => {
     const url = process.env.NLP_API_URL + "/library";
+    let output = null;
 
-    axios
+    const promise = axios
         .get(url)
         .then(response => {
-            const data = response.data;
-
-            res.send(data);
+            output = response.data;
         })
         .catch(err => {
-            res.send(err);
+            output = err;
+        });
+
+    promise
+        .then(() => {
+            res.send(output);
+        })
+        .catch(() => {
+            res.send(output);
         });
 });
 
 app.post("/nlpql", (req, res) => {
     const url = process.env.NLP_API_URL + "/nlpql";
     const data = req.body.data;
+    let output = null;
 
-    axios
+    const promise = axios
         .post(url, data, {
             headers: {
                 "Content-Type": "text/plain"
             }
         })
         .then(response => {
-            res.send(response);
+            output = response.data;
         })
-        .catch(error => {
-            res.send(error);
+        .catch(err => {
+            output = err;
+        });
+
+    promise
+        .then(() => {
+            res.send(output);
+        })
+        .catch(() => {
+            res.send(output);
         });
 });
 

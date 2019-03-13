@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import Library from "./Library";
 import { runNLPQL } from "../../redux/actions/run_nlpql";
+import { setJobs } from "../../redux/actions/set_jobs";
 
 function mapStateToProps(state) {
     return {
@@ -10,7 +11,7 @@ function mapStateToProps(state) {
 
 const LibraryContainer = connect(
     mapStateToProps,
-    { runNLPQL }
+    { runNLPQL, setJobs }
 )(Library);
 
 export default LibraryContainer;

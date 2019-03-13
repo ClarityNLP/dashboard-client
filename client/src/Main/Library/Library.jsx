@@ -26,13 +26,17 @@ export default class Library extends Component {
             return (
                 <tr key={"query" + i} className="query_row">
                     <td>{query.nlpql_name}</td>
-                    <td
-                        className="run_button has-text-right"
-                        onClick={() => {
-                            this.props.runNLPQL(query.nlpql_raw);
-                        }}
-                    >
-                        <FaPlay />
+                    <td className="has-text-right">
+                        <FaPlay
+                            className="run_button"
+                            onClick={() => {
+                                this.props
+                                    .runNLPQL(query.nlpql_raw)
+                                    .then(() => {
+                                        this.props.setJobs();
+                                    });
+                            }}
+                        />
                     </td>
                 </tr>
             );
