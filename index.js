@@ -5,10 +5,6 @@ dotenv.config();
 
 const wss = new WSS({ port: process.env.DASHBOARD_API_CONTAINER_PORT });
 
-wss.on("connection", socket => {
-    broadcast();
-});
-
 getJobs = () => {
     const url = `http://${process.env.NLP_API_HOSTNAME}:${
         process.env.NLP_API_CONTAINER_PORT
@@ -56,7 +52,6 @@ getDocuments = () => {
             };
         })
         .catch(err => {
-            console.log(err);
             return { documents: { error: err.message } };
         });
 };
@@ -91,10 +86,14 @@ const broadcast = () => {
         });
 };
 
+wss.on("connection", socket => {
+    broadcast();
+
+    setInterval(broadcast, process.env.INTERVAL);
+});
+
 console.log(
     `Server running at http://localhost:${
         process.env.DASHBOARD_API_CONTAINER_PORT
     }`
 );
-
-setInterval(broadcast, process.env.INTERVAL);
