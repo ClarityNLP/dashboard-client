@@ -5,18 +5,14 @@ dotenv.config();
 
 const wss = new WSS({ port: process.env.DASHBOARD_API_CONTAINER_PORT });
 
-console.log(
-    `Server running at http://localhost:${
-        process.env.DASHBOARD_API_CONTAINER_PORT
-    }`
-);
-
 wss.on("connection", socket => {
     broadcast();
 });
 
 getJobs = () => {
-    const url = process.env.NLP_API_URL + "/phenotype_jobs/ALL";
+    const url = `http://${process.env.NLP_API_HOSTNAME}:${
+        process.env.NLP_API_CONTAINER_PORT
+    }/phenotype_jobs/ALL`;
 
     return axios
         .get(url)
@@ -29,7 +25,9 @@ getJobs = () => {
 };
 
 getLibrary = () => {
-    const url = process.env.NLP_API_URL + "/library";
+    const url = `http://${process.env.NLP_API_HOSTNAME}:${
+        process.env.NLP_API_CONTAINER_PORT
+    }/library`;
 
     return axios
         .get(url)
@@ -43,7 +41,9 @@ getLibrary = () => {
 
 getDocuments = () => {
     const url =
-        process.env.NLP_SOLR_URL +
+        `http://${process.env.NLP_SOLR_HOSTNAME}:${
+            process.env.NLP_SOLR_CONTAINER_PORT
+        }/solr/sample` +
         "/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
 
     return axios
@@ -56,6 +56,7 @@ getDocuments = () => {
             };
         })
         .catch(err => {
+            console.log(err);
             return { documents: { error: err.message } };
         });
 };
@@ -89,5 +90,11 @@ const broadcast = () => {
             });
         });
 };
+
+console.log(
+    `Server running at http://localhost:${
+        process.env.DASHBOARD_API_CONTAINER_PORT
+    }`
+);
 
 setInterval(broadcast, process.env.INTERVAL);

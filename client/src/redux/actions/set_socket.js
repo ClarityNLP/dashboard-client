@@ -15,24 +15,11 @@ export const setSocket = () => dispatch => {
     // When data is received
     socket.onmessage = event => {
         const data = JSON.parse(event.data);
-        let errors = {};
 
-        for (let key in data) {
-            let error = data[key].error;
-            errors[key] = error;
-        }
-
-        if (errors) {
-            dispatch({
-                type: SETTING_SOCKET_FAIL,
-                data: errors
-            });
-        } else {
-            dispatch({
-                type: SETTING_SOCKET_SUCCESS,
-                data: data
-            });
-        }
+        dispatch({
+            type: SETTING_SOCKET_SUCCESS,
+            data: data
+        });
     };
 
     // A connection could not be made
