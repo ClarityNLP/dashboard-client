@@ -6,14 +6,7 @@ import Results from "./Results";
 
 export default class Main extends Component {
     componentDidMount() {
-        this.props.setDocuments();
-        this.props.setJobs();
-        this.props.setLibrary();
-
-        setInterval(() => {
-            this.props.setDocuments();
-            this.props.setJobs();
-        }, 3000);
+        this.props.setSocket();
     }
 
     render() {

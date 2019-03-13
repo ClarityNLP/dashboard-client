@@ -30,11 +30,7 @@ export default class Library extends Component {
                         <FaPlay
                             className="run_button"
                             onClick={() => {
-                                this.props
-                                    .runNLPQL(query.nlpql_raw)
-                                    .then(() => {
-                                        this.props.setJobs();
-                                    });
+                                this.props.runNLPQL(query.nlpql_raw);
                             }}
                         />
                     </td>

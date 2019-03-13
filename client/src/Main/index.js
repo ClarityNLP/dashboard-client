@@ -1,7 +1,5 @@
 import { connect } from "react-redux";
-import { setDocuments } from "../redux/actions/set_documents";
-import { setJobs } from "../redux/actions/set_jobs";
-import { setLibrary } from "../redux/actions/set_library";
+import { setSocket } from "../redux/actions/set_socket";
 
 import Main from "./Main";
 
@@ -13,7 +11,7 @@ function mapStateToProps(state) {
 
 const MainContainer = connect(
     mapStateToProps,
-    { setDocuments, setJobs, setLibrary }
+    { setSocket }
 )(Main);
 
 export default MainContainer;

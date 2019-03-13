@@ -1,6 +1,8 @@
 import * as types from "../actions/types";
 
 const initialState = {
+    connecting: false,
+    socket_error: {},
     documents: [],
     documents_loading: false,
     documents_error: {},
@@ -17,6 +19,25 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SETTING_SOCKET:
+            return {
+                ...state,
+                connecting: true
+            };
+        case types.SETTING_SOCKET_SUCCESS:
+            return {
+                ...state,
+                connecting: false,
+                documents: JSON.parse(action.data.documents),
+                library: JSON.parse(action.data.library),
+                jobs: JSON.parse(action.data.jobs)
+            };
+        case types.SETTING_SOCKET_FAIL:
+            return {
+                ...state,
+                connecting: false,
+                socket_error: action.data
+            };
         case types.SETTING_DOCUMENTS:
             return {
                 ...state,
@@ -46,13 +67,13 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 jobs_loading: false,
-                jobs: action.payload.data
+                jobs: action.data
             };
         case types.SETTING_JOBS_FAIL:
             return {
                 ...state,
                 jobs_loading: false,
-                jobs_error: action.payload
+                jobs_error: action.data
             };
         case types.SETTING_LIBRARY:
             return {

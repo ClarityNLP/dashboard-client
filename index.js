@@ -1,118 +1,84 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-var cors = require("cors");
+var WSS = require("ws").Server;
 const axios = require("axios");
-const dotenv = require("dotenv");
-const util = require("util");
 
-dotenv.config();
+const wss = new WSS({ port: 8750 });
 
-const app = express();
-
-app.use(bodyParser.json());
-app.use(cors());
-
-app.get("/", (req, res) => {
-    res.send("Welcome to the ClarityNLP dashboard API!");
+wss.on("connection", socket => {
+    broadcast();
 });
 
-app.get("/document_sources", (req, res) => {
+getJobs = () => {
+    const url = "http://localhost:5000/phenotype_jobs/ALL";
+
+    return axios
+        .get(url)
+        .then(response => {
+            return { jobs: JSON.stringify(response.data) };
+        })
+        .catch(err => {
+            return { jobs: err.message };
+        });
+};
+
+getLibrary = () => {
+    const url = "http://localhost:5000/library";
+
+    return axios
+        .get(url)
+        .then(response => {
+            return { library: JSON.stringify(response.data) };
+        })
+        .catch(err => {
+            return { library: err.message };
+        });
+};
+
+getDocuments = () => {
     const url =
-        process.env.NLP_SOLR_URL +
-        "/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
-    let output = null;
+        "http://localhost:8983/solr/sample/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json";
 
-    const promise = axios
+    return axios
         .get(url)
         .then(response => {
-            output = response.data;
+            return {
+                documents: JSON.stringify(
+                    response.data.facet_counts.facet_fields.source
+                )
+            };
         })
         .catch(err => {
-            output = err;
+            return { documents: err.message };
         });
+};
 
-    promise
-        .then(() => {
-            res.send(output);
-        })
-        .catch(() => {
-            res.send(output);
-        });
-});
+const broadcast = () => {
+    const jobCall = getJobs();
+    const libraryCall = getLibrary();
+    const docsCall = getDocuments();
 
-app.get("/jobs", (req, res) => {
-    const url = process.env.NLP_API_URL + "/phenotype_jobs/ALL";
-    let output = null;
+    Promise.all([jobCall, libraryCall, docsCall])
+        .then(responses => {
+            const data = {};
 
-    const promise = axios
-        .get(url)
-        .then(response => {
-            output = response.data;
-        })
-        .catch(err => {
-            output = err;
-        });
+            for (let i = 0; i < responses.length; i++) {
+                let obj = responses[i];
+                let entries = Object.entries(obj)[0];
+                let key = entries[0];
+                let value = entries[1];
 
-    promise
-        .then(() => {
-            res.send(output);
-        })
-        .catch(() => {
-            res.send(output);
-        });
-});
-
-app.get("/library", (req, res) => {
-    const url = process.env.NLP_API_URL + "/library";
-    let output = null;
-
-    const promise = axios
-        .get(url)
-        .then(response => {
-            output = response.data;
-        })
-        .catch(err => {
-            output = err;
-        });
-
-    promise
-        .then(() => {
-            res.send(output);
-        })
-        .catch(() => {
-            res.send(output);
-        });
-});
-
-app.post("/nlpql", (req, res) => {
-    const url = process.env.NLP_API_URL + "/nlpql";
-    const data = req.body.data;
-    let output = null;
-
-    const promise = axios
-        .post(url, data, {
-            headers: {
-                "Content-Type": "text/plain"
+                data[key] = value;
             }
-        })
-        .then(response => {
-            output = response.data;
+
+            wss.clients.forEach(client => {
+                client.send(JSON.stringify(data));
+            });
         })
         .catch(err => {
-            output = err;
+            console.log("ERROR: " + err);
+            wss.clients.forEach(client => {
+                client.send(JSON.stringify(err));
+            });
         });
+};
 
-    promise
-        .then(() => {
-            res.send(output);
-        })
-        .catch(() => {
-            res.send(output);
-        });
-});
-
-const port = process.env.DASHBOARD_API_CONTAINER_PORT;
-
-app.listen(port, () => {
-    console.log(`Server started on http://localhost:${port}`);
-});
+setInterval(broadcast, 500);
