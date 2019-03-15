@@ -89,7 +89,11 @@ const broadcast = () => {
 wss.on("connection", socket => {
     broadcast();
 
-    setInterval(broadcast, process.env.INTERVAL);
+    const brodcastInterval = setInterval(broadcast, process.env.INTERVAL);
+
+    socket.on("close", () => {
+        clearInterval(brodcastInterval);
+    });
 });
 
 console.log(

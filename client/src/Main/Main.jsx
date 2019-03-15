@@ -9,6 +9,10 @@ export default class Main extends Component {
         this.props.setSocket();
     }
 
+    componentWillUnmount() {
+        this.props.app.socket.close();
+    }
+
     render() {
         return (
             <React.Fragment>

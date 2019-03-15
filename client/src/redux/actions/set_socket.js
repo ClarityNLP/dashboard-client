@@ -5,12 +5,13 @@ import {
 } from "./types";
 
 export const setSocket = () => dispatch => {
-    dispatch({
-        type: SETTING_SOCKET
-    });
-
     // Open a connection
-    var socket = new WebSocket(process.env.REACT_APP_SOCKET_SERVER);
+    const socket = new WebSocket(process.env.REACT_APP_SOCKET_SERVER);
+
+    dispatch({
+        type: SETTING_SOCKET,
+        data: socket
+    });
 
     // When data is received
     socket.onmessage = event => {

@@ -2,6 +2,7 @@ import * as types from "../actions/types";
 
 const initialState = {
     connecting: false,
+    socket: null,
     socket_error: {},
     documents: [],
     jobs: [],
@@ -16,7 +17,8 @@ const reducer = (state = initialState, action) => {
         case types.SETTING_SOCKET:
             return {
                 ...state,
-                connecting: true
+                connecting: true,
+                socket: action.data
             };
         case types.SETTING_SOCKET_SUCCESS:
             return {
