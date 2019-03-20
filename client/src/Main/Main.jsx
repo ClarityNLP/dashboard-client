@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Documents from "./Documents";
 import Library from "./Library";
 import Results from "./Results";
+import Loader from "./Loader";
 
 export default class Main extends Component {
     componentDidMount() {
@@ -14,19 +15,25 @@ export default class Main extends Component {
     }
 
     render() {
+        const { connecting } = this.props.app;
+
         return (
             <React.Fragment>
                 <Navbar />
                 <div className="dashboard_container">
-                    <div className="columns dashboard_columns">
-                        <div className="column dashboard_column">
-                            <Documents />
-                            <Library />
+                    {connecting ? (
+                        <Loader />
+                    ) : (
+                        <div className="columns dashboard_columns">
+                            <div className="column dashboard_column">
+                                <Documents />
+                                <Library />
+                            </div>
+                            <div className="column dashboard_column">
+                                <Results />
+                            </div>
                         </div>
-                        <div className="column dashboard_column">
-                            <Results />
-                        </div>
-                    </div>
+                    )}
                 </div>
             </React.Fragment>
         );
