@@ -87,7 +87,7 @@ const broadcast = () => {
 };
 
 wss.on("connection", socket => {
-    broadcast();
+    // broadcast();
 
     const brodcastInterval = setInterval(broadcast, process.env.INTERVAL);
 

@@ -11,6 +11,10 @@ export default class Library extends Component {
         };
     }
 
+    componentDidMount() {
+        this.setContent();
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.app.library !== this.props.app.library) {
             this.setContent();

@@ -6,8 +6,36 @@ import Results from "./Results";
 import Loader from "./Loader";
 
 export default class Main extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            setSocketInterval: null
+        };
+    }
+
     componentDidMount() {
         this.props.setSocket();
+
+        const tmp = setInterval(() => {
+            this.props.setSocket();
+        }, 5000);
+
+        this.setState({
+            setSocketInterval: tmp
+        });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.app.socket_error !== this.props.app.socket_error) {
+            const { socket_error } = this.props.app;
+
+            if (socket_error.type !== "error") {
+                clearInterval(this.state.setSocketInterval);
+            } else {
+                console.error("Could not connect to service, trying again...");
+            }
+        }
     }
 
     componentWillUnmount() {

@@ -12,6 +12,10 @@ export default class Documents extends Component {
         };
     }
 
+    componentDidMount() {
+        this.setContent();
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.app.documents !== this.props.app.documents) {
             this.setContent();
@@ -20,6 +24,7 @@ export default class Documents extends Component {
 
     setContent = () => {
         const { documents } = this.props.app;
+        let tmp_content;
 
         if (Array.isArray(documents)) {
             if (documents.length > 0) {
@@ -39,24 +44,22 @@ export default class Documents extends Component {
                     color_count++;
                 }
 
-                this.setState({
-                    content: <PieChart data={data} radius={100} />
-                });
+                tmp_content = <PieChart data={data} radius={100} />;
             } else {
-                this.setState({
-                    content: <p>You have no documents available.</p>
-                });
+                tmp_content = <p>You have no documents available.</p>;
             }
         } else {
-            this.setState({
-                content: (
-                    <p className="has-text-weight-bold">
-                        We ran into a problem while getting your documents,
-                        please try again later.
-                    </p>
-                )
-            });
+            tmp_content = (
+                <p className="has-text-weight-bold">
+                    We ran into a problem while getting your documents, please
+                    try again later.
+                </p>
+            );
         }
+
+        this.setState({
+            content: tmp_content
+        });
     };
 
     render() {

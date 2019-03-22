@@ -12,6 +12,10 @@ export default class Results extends Component {
         };
     }
 
+    componentDidMount() {
+        this.setContent();
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.app.jobs !== this.props.app.jobs) {
             this.setContent();
