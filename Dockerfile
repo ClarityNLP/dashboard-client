@@ -11,7 +11,7 @@ ADD .docker/root/.bashrc /root/
 
 COPY package.json $APP_HOME
 
-RUN npm install | cat
+RUN npm install
 
 COPY . .
 
