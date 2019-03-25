@@ -77,7 +77,9 @@ export default class Library extends Component {
                 className="library"
                 heading="Query Library"
                 cta_label="Add Query"
-                cta_href={process.env.REACT_APP_QUERY_BUILDER_URL}
+                cta_href={
+                    "http://" + window._env_.REACT_APP_RESULTS_URL + "/runner"
+                }
             >
                 <div className="library_container">{content}</div>
             </Card>

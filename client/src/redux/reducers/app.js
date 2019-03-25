@@ -6,6 +6,8 @@ const initialState = {
     socket_error: {},
     documents: [],
     jobs: [],
+    stats: [],
+    performance: [],
     library: [],
     running_nlpql: false,
     nlpql_run_results: {},
@@ -27,7 +29,9 @@ const reducer = (state = initialState, action) => {
                 socket_error: {},
                 documents: JSON.parse(action.data.documents),
                 library: JSON.parse(action.data.library),
-                jobs: JSON.parse(action.data.jobs)
+                jobs: JSON.parse(action.data.jobs),
+                stats: JSON.parse(action.data.stats),
+                performance: JSON.parse(action.data.performance)
             };
         case types.SETTING_SOCKET_FAIL:
             return {

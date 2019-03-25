@@ -23,19 +23,21 @@ export default class Results extends Component {
     }
 
     setContent = () => {
-        const { jobs } = this.props.app;
+        const { jobs, stats, performance } = this.props.app;
 
         if (Array.isArray(jobs)) {
             if (jobs.length > 0) {
                 let data = [];
 
                 data = jobs.map((job, i) => {
+                    const id = job.nlp_job_id;
+
                     return (
                         <tr
                             key={"job" + i}
                             className="job_row"
                             onClick={() => {
-                                this.redirectToJob(job.nlp_job_id);
+                                this.redirectToJob(id);
                             }}
                         >
                             <td>{job.name}</td>
@@ -55,8 +57,8 @@ export default class Results extends Component {
                                     job.status
                                 )}
                             </td>
-                            <td>[cohort size]</td>
-                            <td>[accuracy %]</td>
+                            <td>{stats[id].counts_found}</td>
+                            <td>performance[id]</td>
                         </tr>
                     );
                 });
@@ -96,7 +98,7 @@ export default class Results extends Component {
 
     redirectToJob = job_id => {
         window.location =
-            process.env.REACT_APP_RESULT_VIEWER_URL + "?job=" + job_id;
+            "http://" + window._env_.REACT_APP_RESULTS_URL + "?job=" + job_id;
     };
 
     render() {
@@ -107,7 +109,7 @@ export default class Results extends Component {
                 className="results"
                 heading="Results"
                 cta_label="See All Results"
-                cta_href={process.env.REACT_APP_RESULT_VIEWER_URL}
+                cta_href={"http://" + window._env_.REACT_APP_RESULTS_URL}
             >
                 <div className="results_container">{content}</div>
             </Card>

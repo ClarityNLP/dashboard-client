@@ -70,7 +70,9 @@ export default class Documents extends Component {
                 className="documents"
                 heading="Documents"
                 cta_label="Add Documents"
-                cta_href={process.env.REACT_APP_INGEST_URL + "csv"}
+                cta_href={
+                    "http://" + window._env_.REACT_APP_INGEST_URL + "/csv"
+                }
             >
                 <div className="document_pie_chart">{content}</div>
             </Card>

@@ -13,10 +13,42 @@ getJobs = () => {
     return axios
         .get(url)
         .then(response => {
-            return { jobs: JSON.stringify(response.data) };
+            return {
+                jobs: JSON.stringify(response.data)
+            };
         })
         .catch(err => {
             return { jobs: JSON.stringify({ error: err.message }) };
+        });
+};
+
+getJobStats = IDs => {
+    const url = `http://${process.env.NLP_API_HOSTNAME}:${
+        process.env.NLP_API_CONTAINER_PORT
+    }/stats/${IDs}`;
+
+    return axios
+        .get(url)
+        .then(response => {
+            return { stats: JSON.stringify(response.data) };
+        })
+        .catch(err => {
+            return { stats: JSON.stringify({ error: err.message }) };
+        });
+};
+
+getJobPerformance = IDs => {
+    const url = `http://${process.env.NLP_API_HOSTNAME}:${
+        process.env.NLP_API_CONTAINER_PORT
+    }/performance/${IDs}`;
+
+    return axios
+        .get(url)
+        .then(response => {
+            return { performance: JSON.stringify(response.data) };
+        })
+        .catch(err => {
+            return { performance: JSON.stringify({ error: err.message }) };
         });
 };
 
@@ -74,8 +106,28 @@ const broadcast = () => {
                 data[key] = value;
             }
 
-            wss.clients.forEach(client => {
-                client.send(JSON.stringify(data));
+            const jobs = JSON.parse(data.jobs);
+
+            const IDs = jobs.map(job => {
+                return job.nlp_job_id;
+            });
+
+            const statsCall = getJobStats(IDs);
+            const performanceCall = getJobPerformance(IDs);
+
+            return Promise.all([statsCall, performanceCall]).then(responses => {
+                for (let i = 0; i < responses.length; i++) {
+                    let obj = responses[i];
+                    let entries = Object.entries(obj)[0];
+                    let key = entries[0];
+                    let value = entries[1];
+
+                    data[key] = value;
+                }
+
+                wss.clients.forEach(client => {
+                    client.send(JSON.stringify(data));
+                });
             });
         })
         .catch(err => {
@@ -87,8 +139,6 @@ const broadcast = () => {
 };
 
 wss.on("connection", socket => {
-    // broadcast();
-
     const brodcastInterval = setInterval(broadcast, process.env.INTERVAL);
 
     socket.on("close", () => {
