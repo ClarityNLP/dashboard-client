@@ -4,7 +4,8 @@ import Main from "./Main";
 
 function mapStateToProps(state) {
     return {
-        app: state.app
+        app: state.app,
+        oidc: state.oidc,
     };
 }
 

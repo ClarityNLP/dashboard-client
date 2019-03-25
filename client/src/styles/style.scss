@@ -1,3 +1,4 @@
+@charset "utf-8";
 @import "util/reset";
 @import "util/normalize";
 
@@ -15,3 +16,4 @@ $link: $purple;
 @import "../../node_modules/bulma/bulma.sass";
 
 @import "../Main/main";
+@import "../auth/transient";
