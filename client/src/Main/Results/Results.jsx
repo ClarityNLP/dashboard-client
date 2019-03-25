@@ -8,8 +8,12 @@ export default class Results extends Component {
         super(props);
 
         this.state = {
-            job_data: []
+            content: []
         };
+    }
+
+    componentDidMount() {
+        this.setContent();
     }
 
     componentDidUpdate(prevProps) {
@@ -20,43 +24,74 @@ export default class Results extends Component {
 
     setContent = () => {
         const { jobs } = this.props.app;
-        let data = [];
 
-        data = jobs.map((job, i) => {
-            return (
-                <tr
-                    key={"job" + i}
-                    className="job_row"
-                    onClick={() => {
-                        this.redirectToJob(job.nlp_job_id);
-                    }}
-                >
-                    <td>{job.name}</td>
-                    <td>
-                        <Moment
-                            format="D MMM YYYY HH:mm:ss"
-                            date={job.date_started}
-                        />
-                    </td>
-                    <td>
-                        {job.status === "COMPLETED" ? (
-                            <Moment
-                                duration={job.date_started}
-                                date={job.date_ended}
-                            />
-                        ) : (
-                            job.status
-                        )}
-                    </td>
-                    <td>[cohort size]</td>
-                    <td>[accuracy %]</td>
-                </tr>
-            );
-        });
+        if (Array.isArray(jobs)) {
+            if (jobs.length > 0) {
+                let data = [];
 
-        this.setState({
-            job_data: data
-        });
+                data = jobs.map((job, i) => {
+                    return (
+                        <tr
+                            key={"job" + i}
+                            className="job_row"
+                            onClick={() => {
+                                this.redirectToJob(job.nlp_job_id);
+                            }}
+                        >
+                            <td>{job.name}</td>
+                            <td>
+                                <Moment
+                                    format="D MMM YYYY HH:mm:ss"
+                                    date={job.date_started}
+                                />
+                            </td>
+                            <td>
+                                {job.status === "COMPLETED" ? (
+                                    <Moment
+                                        duration={job.date_started}
+                                        date={job.date_ended}
+                                    />
+                                ) : (
+                                    job.status
+                                )}
+                            </td>
+                            <td>[cohort size]</td>
+                            <td>[accuracy %]</td>
+                        </tr>
+                    );
+                });
+
+                this.setState({
+                    content: (
+                        <table className="table is-hoverable is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Job</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>n</th>
+                                    <th>Accuracy</th>
+                                </tr>
+                            </thead>
+                            <tbody>{data}</tbody>
+                        </table>
+                    )
+                });
+            } else {
+                this.setState({
+                    content: <p>You have no results available.</p>
+                });
+            }
+        } else {
+            this.setState({
+                content: (
+                    <p className="has-text-weight-bold">
+                        We ran into a problem while getting your results, please
+                        try again later.
+                    </p>
+                )
+            });
+        }
     };
 
     redirectToJob = job_id => {
@@ -65,7 +100,7 @@ export default class Results extends Component {
     };
 
     render() {
-        const { job_data } = this.state;
+        const { content } = this.state;
 
         return (
             <Card
@@ -74,20 +109,7 @@ export default class Results extends Component {
                 cta_label="See All Results"
                 cta_href={process.env.REACT_APP_RESULT_VIEWER_URL}
             >
-                <div className="results_container">
-                    <table className="table is-hoverable is-striped is-fullwidth">
-                        <thead>
-                            <tr>
-                                <th>Job</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>n</th>
-                                <th>Accuracy</th>
-                            </tr>
-                        </thead>
-                        <tbody>{job_data}</tbody>
-                    </table>
-                </div>
+                <div className="results_container">{content}</div>
             </Card>
         );
     }

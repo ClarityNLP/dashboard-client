@@ -24,6 +24,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 connecting: false,
+                socket_error: {},
                 documents: JSON.parse(action.data.documents),
                 library: JSON.parse(action.data.library),
                 jobs: JSON.parse(action.data.jobs)
@@ -31,7 +32,6 @@ const reducer = (state = initialState, action) => {
         case types.SETTING_SOCKET_FAIL:
             return {
                 ...state,
-                connecting: false,
                 socket_error: action.data
             };
         case types.RUNNING_NLPQL:

@@ -16,7 +16,7 @@ getJobs = () => {
             return { jobs: JSON.stringify(response.data) };
         })
         .catch(err => {
-            return { jobs: { error: err.message } };
+            return { jobs: JSON.stringify({ error: err.message }) };
         });
 };
 
@@ -31,7 +31,7 @@ getLibrary = () => {
             return { library: JSON.stringify(response.data) };
         })
         .catch(err => {
-            return { library: { error: err.message } };
+            return { library: JSON.stringify({ error: err.message }) };
         });
 };
 
@@ -52,7 +52,7 @@ getDocuments = () => {
             };
         })
         .catch(err => {
-            return { documents: { error: err.message } };
+            return { documents: JSON.stringify({ error: err.message }) };
         });
 };
 
@@ -87,7 +87,7 @@ const broadcast = () => {
 };
 
 wss.on("connection", socket => {
-    broadcast();
+    // broadcast();
 
     const brodcastInterval = setInterval(broadcast, process.env.INTERVAL);
 

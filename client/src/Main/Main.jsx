@@ -3,6 +3,7 @@ import NavbarTop from "./NavbarTop/index";
 import Documents from "./Documents";
 import Library from "./Library";
 import Results from "./Results";
+import Loader from "./Loader";
 import Transient from '../auth/Transient';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars, faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -21,11 +22,32 @@ export default class Main extends Component {
     super(props);
     this.state = {
       isMenuOpen: true,
+      setSocketInterval: null,
     };
   }
 
   componentDidMount() {
     this.props.setSocket();
+
+    const tmp = setInterval(() => {
+        this.props.setSocket();
+    }, 5000);
+
+    this.setState({
+        setSocketInterval: tmp
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.app.socket_error !== this.props.app.socket_error) {
+      const { socket_error } = this.props.app;
+
+      if (socket_error.type !== "error") {
+        clearInterval(this.state.setSocketInterval);
+      } else {
+        console.error("Could not connect to service, trying again...");
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -45,7 +67,7 @@ export default class Main extends Component {
       REACT_APP_DOCUMETATION_URL
     } = window._env_;
 
-    // const =
+    const { connecting } = this.props.app;
 
     return (
       this.props.oidc.user ?
@@ -86,15 +108,19 @@ export default class Main extends Component {
           </nav>
           <div id="dashboard">
             <NavbarTop toggle={this.handleSlideoutToggle}/>
-            <div className="columns dashboard_columns">
-              <div className="column dashboard_column">
-                <Documents />
-                <Library />
+            {connecting ? (
+              <Loader />
+            ) : (
+              <div className="columns dashboard_columns">
+                <div className="column dashboard_column">
+                  <Documents />
+                  <Library />
+                </div>
+                <div className="column dashboard_column">
+                  <Results />
+                </div>
               </div>
-              <div className="column dashboard_column">
-                <Results />
-              </div>
-            </div>
+            )}
           </div>
         </React.Fragment> :
         <Transient/>

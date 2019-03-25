@@ -8,8 +8,12 @@ export default class Documents extends Component {
         super(props);
 
         this.state = {
-            pie_data: []
+            content: []
         };
+    }
+
+    componentDidMount() {
+        this.setContent();
     }
 
     componentDidUpdate(prevProps) {
@@ -20,31 +24,46 @@ export default class Documents extends Component {
 
     setContent = () => {
         const { documents } = this.props.app;
-        const data = [];
-        let color_count = 0;
+        let tmp_content;
 
-        if (documents.length > 0) {
-            for (let i = 0; i < documents.length; i += 2) {
-                let label = documents[i];
-                let count = documents[i + 1];
+        if (Array.isArray(documents)) {
+            if (documents.length > 0) {
+                const data = [];
+                let color_count = 0;
 
-                data.push({
-                    label: label,
-                    value: count,
-                    color: colors[color_count]
-                });
+                for (let i = 0; i < documents.length; i += 2) {
+                    let label = documents[i];
+                    let count = documents[i + 1];
 
-                color_count++;
+                    data.push({
+                        label: label,
+                        value: count,
+                        color: colors[color_count]
+                    });
+
+                    color_count++;
+                }
+
+                tmp_content = <PieChart data={data} radius={100} />;
+            } else {
+                tmp_content = <p>You have no documents available.</p>;
             }
+        } else {
+            tmp_content = (
+                <p className="has-text-weight-bold">
+                    We ran into a problem while getting your documents, please
+                    try again later.
+                </p>
+            );
         }
 
         this.setState({
-            pie_data: data
+            content: tmp_content
         });
     };
 
     render() {
-        const { pie_data } = this.state;
+        const { content } = this.state;
 
         return (
             <Card
@@ -53,9 +72,7 @@ export default class Documents extends Component {
                 cta_label="Add Documents"
                 cta_href={process.env.REACT_APP_INGEST_URL + "csv"}
             >
-                <div className="document_pie_chart">
-                    <PieChart data={pie_data} radius={100} />
-                </div>
+                <div className="document_pie_chart">{content}</div>
             </Card>
         );
     }
