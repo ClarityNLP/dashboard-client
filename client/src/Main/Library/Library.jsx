@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import Card from "../Card";
 import { FaPlay } from "react-icons/fa";
+import RunResponse from "./RunResponse";
 
 export default class Library extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            content: []
+            content: [],
+            modal: null
         };
     }
 
@@ -37,7 +39,7 @@ export default class Library extends Component {
                                 <FaPlay
                                     className="run_button"
                                     onClick={() => {
-                                        this.props.runNLPQL(query.nlpql_raw);
+                                        this.runQuery(query.nlpql_raw);
                                     }}
                                 />
                             </td>
@@ -69,20 +71,46 @@ export default class Library extends Component {
         }
     };
 
+    runQuery = query => {
+        this.props.runNLPQL(query).then(response => {
+            const { nlpql_run_results } = this.props.app;
+
+            this.setState({
+                modal: (
+                    <RunResponse
+                        data={nlpql_run_results}
+                        toggle={this.toggleModal}
+                    />
+                )
+            });
+        });
+    };
+
+    toggleModal = () => {
+        this.setState({
+            modal: null
+        });
+    };
+
     render() {
-        const { content } = this.state;
+        const { content, modal } = this.state;
 
         return (
-            <Card
-                className="library"
-                heading="Query Library"
-                cta_label="Add Query"
-                cta_href={
-                    "http://" + window._env_.REACT_APP_RESULTS_URL + "/runner"
-                }
-            >
-                <div className="library_container">{content}</div>
-            </Card>
+            <React.Fragment>
+                {modal}
+                <Card
+                    className="library"
+                    heading="Query Library"
+                    cta_label="Add Query"
+                    cta_href={
+                        "http://" +
+                        window._env_.REACT_APP_RESULTS_URL +
+                        "/runner"
+                    }
+                >
+                    <div className="library_container">{content}</div>
+                </Card>
+            </React.Fragment>
         );
     }
 }
