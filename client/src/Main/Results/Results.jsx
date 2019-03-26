@@ -58,7 +58,7 @@ export default class Results extends Component {
                                 )}
                             </td>
                             <td>{stats[id].counts_found}</td>
-                            <td>performance[id]</td>
+                            <td>{performance[id].accuracy_score}</td>
                         </tr>
                     );
                 });

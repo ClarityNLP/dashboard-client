@@ -60,8 +60,9 @@ export default class PieChart extends Component {
                 );
             }
         } else {
-            tmp_slices.push(
+            tmp_slices = (
                 <circle
+                    key={"circle"}
                     cx={radius}
                     cy={radius}
                     r={radius}
