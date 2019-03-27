@@ -57,7 +57,7 @@ export default class Results extends Component {
                                     job.status
                                 )}
                             </td>
-                            <td>{stats[id].counts_found}</td>
+                            <td>{stats[id].final_subjects}</td>
                             <td>{performance[id].accuracy_score}</td>
                         </tr>
                     );
