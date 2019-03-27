@@ -58,7 +58,19 @@ export default class Results extends Component {
                                 )}
                             </td>
                             <td>{stats[id].final_subjects}</td>
-                            <td>{performance[id].accuracy_score}</td>
+                            <td>
+                                {performance[id].accuracy_score !== 0 ? (
+                                    performance[id].accuracy_score
+                                ) : (
+                                    <a
+                                        onClick={() => {
+                                            this.redirectToJob(id);
+                                        }}
+                                    >
+                                        Validate
+                                    </a>
+                                )}
+                            </td>
                         </tr>
                     );
                 });
