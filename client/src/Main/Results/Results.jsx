@@ -70,7 +70,7 @@ export default class Results extends Component {
                                 <tr>
                                     <th>Job</th>
                                     <th>Date</th>
-                                    <th>Status</th>
+                                    <th>Runtime</th>
                                     <th>n</th>
                                     <th>Accuracy</th>
                                 </tr>
