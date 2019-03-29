@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import Card from '../Card';
-import { FaPlay } from 'react-icons/fa';
+import { FaPlay, FaTrash } from 'react-icons/fa';
 import ResponseModal from './ResponseModal';
 import ReactJson from 'react-json-view';
-
+import Loader from '../Loader';
 export default class Library extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       content: [],
-      modal: null
+      modal: null,
+      loading: false
     };
   }
 
@@ -21,6 +22,15 @@ export default class Library extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.app.library !== this.props.app.library) {
       this.setContent();
+      this.setState({
+        loading: false
+      });
+    }
+
+    if (prevProps.app.deleting_query !== this.props.app.deleting_query) {
+      this.setState({
+        loading: true
+      });
     }
   }
 
@@ -42,6 +52,15 @@ export default class Library extends Component {
                 this.viewQuery(query.nlpql_raw);
               }}
             >
+              <td>
+                <FaTrash
+                  className='run_button'
+                  onClick={e => {
+                    e.stopPropagation();
+                    this.props.deleteQuery(query.nlpql_id);
+                  }}
+                />
+              </td>
               <td>{query.nlpql_name}</td>
               <td>{query.version}</td>
               <td className='has-text-right'>
@@ -117,7 +136,7 @@ export default class Library extends Component {
   };
 
   render() {
-    const { content, modal } = this.state;
+    const { content, modal, loading } = this.state;
 
     return (
       <React.Fragment>
@@ -128,7 +147,11 @@ export default class Library extends Component {
           cta_label='Add Query'
           cta_href={'http://' + window._env_.REACT_APP_RESULTS_URL + '/runner'}
         >
-          <div className='library_container'>{content}</div>
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className='library_container'>{content}</div>
+          )}
         </Card>
       </React.Fragment>
     );
