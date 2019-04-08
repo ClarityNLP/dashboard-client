@@ -5,7 +5,9 @@ import {
 } from './types';
 
 export const setSocket = () => dispatch => {
-    const socket = new WebSocket(`wss://${process.env.REACT_APP_API_HOST}/dashboard`)
+  const socket = new WebSocket(
+    `wss://${process.env.REACT_APP_API_HOST}/dashboard`
+  );
 
   dispatch({
     type: SETTING_SOCKET,

@@ -108,7 +108,7 @@ const broadcast = () => {
 
       const jobs = JSON.parse(data.jobs);
 
-      if (Array.isArray && jobs.length > 0) {
+      if (jobs.length > 0) {
         const IDs = jobs.map(job => {
           return job.nlp_job_id;
         });
@@ -131,6 +131,9 @@ const broadcast = () => {
           });
         });
       } else {
+        data.stats = JSON.stringify({});
+        data.performance = JSON.stringify({});
+
         wss.clients.forEach(client => {
           client.send(JSON.stringify(data));
         });
