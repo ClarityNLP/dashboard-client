@@ -6,7 +6,7 @@ import {
 
 export const setSocket = () => dispatch => {
     // Open a connection
-    const socket = new WebSocket(`ws://${process.env.REACT_APP_API_HOST}/api/dashboard`)
+    const socket = new WebSocket(`wss://${process.env.REACT_APP_API_HOST}/api/dashboard`)
 
     console.log('socket: ',socket);
 
