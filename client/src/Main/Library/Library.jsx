@@ -49,7 +49,7 @@ export default class Library extends Component {
               key={'query' + i}
               className='query_row'
               onClick={() => {
-                this.viewQuery(query.nlpql_raw);
+                this.viewQuery(query.nlpql_id);
               }}
             >
               <td>
@@ -66,8 +66,8 @@ export default class Library extends Component {
               <td className='has-text-right'>
                 <FaPlay
                   className='run_button'
-                  onClick={() => {
-                    this.runQuery(query.nlpql_raw);
+                  onClick={e => {
+                    this.runQuery(e, query.nlpql_raw);
                   }}
                 />
               </td>
@@ -99,17 +99,17 @@ export default class Library extends Component {
     }
   };
 
-  viewQuery = nlpql => {
-    this.setState({
-      modal: (
-        <ResponseModal toggle={this.toggleModal} title='NLPQL:'>
-          <pre>{nlpql}</pre>
-        </ResponseModal>
-      )
-    });
+  viewQuery = id => {
+    window.location =
+      'https://' +
+      window._env_.REACT_APP_RESULTS_URL +
+      '/runner?query_id=' +
+      id;
   };
 
-  runQuery = query => {
+  runQuery = (event, query) => {
+    event.stopPropagation();
+
     this.props.runNLPQL(query).then(() => {
       const { nlpql_run_results } = this.props.app;
 

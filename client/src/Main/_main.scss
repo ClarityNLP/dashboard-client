@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -7,6 +9,7 @@ html, body, #root {
   flex-direction: row;
   flex: 1;
   overflow: hidden;
+
   #dashboard {
     flex: 1;
     // height: $full_height;
@@ -22,12 +25,18 @@ html, body, #root {
       height: 100%;
     }
   }
+
+  .is-hoverable {
+    tr {
+      cursor: pointer;
+    }
+  }
 }
 
-@import "./Card/card";
-@import "./NavbarTop/menu";
-@import "./NavbarTop/navbar-sso";
-@import "./Documents/documents";
-@import "./Library/library";
-@import "./Results/results";
-@import "./Loader/loader";
+@import './Card/card';
+@import './NavbarTop/menu';
+@import './NavbarTop/navbar-sso';
+@import './Documents/documents';
+@import './Library/library';
+@import './Results/results';
+@import './Loader/loader';
