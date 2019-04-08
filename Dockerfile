@@ -1,9 +1,10 @@
-FROM node:8
+FROM node:11.7.0-alpine
 
 ENV APP_HOME /app
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
+RUN apk add --no-cache bash
 RUN npm install pm2 -g
 
 # some bash niceties
@@ -15,6 +16,5 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8750
-# CMD ["npm", "start"]
-CMD ["pm2-dev", "process.json"]
+ENTRYPOINT ["pm2-dev"]
+CMD ["process.json"]
