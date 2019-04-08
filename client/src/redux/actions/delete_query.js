@@ -5,7 +5,7 @@ export const deleteQuery = id => {
     type: DELETING_QUERY,
     payload: {
       request: {
-        url: '/api/nlp/delete_query/' + id
+        url: '/nlp/delete_query/' + id
       }
     }
   };

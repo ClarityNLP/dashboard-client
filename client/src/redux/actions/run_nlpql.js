@@ -5,7 +5,7 @@ export const runNLPQL = nlpql => {
     type: RUNNING_NLPQL,
     payload: {
       request: {
-        url: '/api/nlp/nlpql',
+        url: '/nlp/nlpql',
         method: 'post',
         data: nlpql,
         headers: {
