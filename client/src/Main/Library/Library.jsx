@@ -62,7 +62,7 @@ export default class Library extends Component {
                 />
               </td>
               <td>{query.nlpql_name}</td>
-              <td>{query.version}</td>
+              <td>{query.nlpql_version}</td>
               <td className='has-text-right'>
                 <FaPlay
                   className='run_button'
@@ -78,6 +78,14 @@ export default class Library extends Component {
         this.setState({
           content: (
             <table className='table is-fullwidth is-striped is-fullwidth is-hoverable'>
+              <thead>
+                <tr>
+                  <th />
+                  <th>Name</th>
+                  <th>Version</th>
+                  <th />
+                </tr>
+              </thead>
               <tbody>{data}</tbody>
             </table>
           )
@@ -143,7 +151,7 @@ export default class Library extends Component {
         {modal}
         <Card
           className='library'
-          heading='Query Library'
+          heading='NLPQL'
           cta_label='Add Query'
           cta_href={'http://' + window._env_.REACT_APP_RESULTS_URL + '/runner'}
         >
