@@ -1,14 +1,14 @@
 .library {
-    height: 50%;
-    padding-top: 0.75rem;
+  height: 50%;
+  padding-top: 0.75rem;
 
-    .library_container {
-        height: 100%;
-        overflow: scroll;
-        padding-right: 10px;
+  .library_container {
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 10px;
 
-        .run_button {
-            cursor: pointer;
-        }
+    .run_button {
+      cursor: pointer;
     }
+  }
 }
