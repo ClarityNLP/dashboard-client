@@ -126,18 +126,21 @@ module.exports = function(webpackEnv) {
     // This means they will be the "root" imports that are included in JS bundle.
     entry: {
       app: [
-        require.resolve('react-dev-utils/webpackHotDevClient'),
+        isEnvDevelopment &&
+          require.resolve('react-dev-utils/webpackHotDevClient'),
         paths.appIndexJs
-      ],
+      ].filter(Boolean),
       silentRenew: [
-        require.resolve('react-dev-utils/webpackHotDevClient'),
+        isEnvDevelopment &&
+          require.resolve('react-dev-utils/webpackHotDevClient'),
         './silent_renew/index.js',
-      ],
+      ].filter(Boolean),
       callback: [
-        require.resolve('react-dev-utils/webpackHotDevClient'),
+        isEnvDevelopment &&
+          require.resolve('react-dev-utils/webpackHotDevClient'),
         './callback/index.js',
         paths.appStyle
-      ]
+      ].filter(Boolean)
     },
     output: {
       // The build folder.
