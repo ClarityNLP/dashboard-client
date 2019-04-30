@@ -1,18 +1,17 @@
-import { RUNNING_NLPQL } from "./types";
+import { RUNNING_NLPQL } from './types';
 
 export const runNLPQL = nlpql => {
-    console.log(nlpql);
-    return {
-        type: RUNNING_NLPQL,
-        payload: {
-            request: {
-                url: "nlpql",
-                method: "post",
-                data: nlpql,
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
+  return {
+    type: RUNNING_NLPQL,
+    payload: {
+      request: {
+        url: '/nlp/nlpql',
+        method: 'post',
+        data: nlpql,
+        headers: {
+          'Content-Type': 'application/json'
         }
-    };
+      }
+    }
+  };
 };

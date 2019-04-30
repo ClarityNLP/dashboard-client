@@ -1,16 +1,13 @@
 import { createUserManager } from "redux-oidc";
 
 const userManagerConfig = {
-  authority: "http://idp.clarity.localhost",
+  authority: `${window.location.protocol}//${window._env_.REACT_APP_IDENTITY_PROVIDER_URL}`,
   client_id: "dashboard",
-  redirect_uri: `${window.location.protocol}//${window.location.hostname}${
-    window.location.port ? `:${window.location.port}` : ""
+  redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""
   }/callback.html`,
   response_type: "code",
   scope: "openid profile nlp_api solr_api",
-  silent_redirect_uri: `${window.location.protocol}//${
-    window.location.hostname
-  }${window.location.port ? `:${window.location.port}` : ""}/silent_renew.html`,
+  silent_redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}/silent_renew.html`,
   automaticSilentRenew: true,
   filterProtocolClaims: true,
   loadUserInfo: true,
