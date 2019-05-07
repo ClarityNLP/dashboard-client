@@ -6,7 +6,7 @@ import Results from "./Results";
 import Loader from "./Loader";
 import Transient from '../auth/Transient';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSpinner, faPlug } from '@fortawesome/free-solid-svg-icons';
 import {
   FaCubes,
   FaPoll,
@@ -15,43 +15,27 @@ import {
   FaCog,
   FaBookOpen
 } from "react-icons/fa";
-library.add(faBars, faSpinner);
+library.add(faBars, faSpinner, faPlug);
 
 export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMenuOpen: true,
-      setSocketInterval: null,
+      isMenuOpen: true
     };
   }
 
-  componentDidMount() {
-    this.props.setSocket();
-
-    const tmp = setInterval(() => {
-        this.props.setSocket();
-    }, 5000);
-
-    this.setState({
-        setSocketInterval: tmp
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.app.socket_error !== this.props.app.socket_error) {
-      const { socket_error } = this.props.app;
-
-      if (socket_error.type !== "error") {
-        clearInterval(this.state.setSocketInterval);
-      } else {
-        console.error("Could not connect to service, trying again...");
-      }
-    }
+  componentWillMount() {
+    return this.props.connectSocket()
+    .then(() => this.props.receiveStats())
+    .then(() => this.props.onSocketDisconnected())
+    .then(() => this.props.onSocketReconnecting())
+    .then(() => this.props.onSocketReconnectSuccess())
+    .then(() => this.props.onSocketReconnectFailure())
   }
 
   componentWillUnmount() {
-    this.props.app.socket.close();
+    return this.props.disconnectSocket();
   }
 
   handleSlideoutToggle = (event) => {
@@ -67,7 +51,7 @@ export default class Main extends Component {
       REACT_APP_DOCUMETATION_URL
     } = window._env_;
 
-    const { connecting } = this.props.app;
+    const { waitingForData } = this.props.app;
 
     return (
       this.props.oidc.user ?
@@ -108,7 +92,7 @@ export default class Main extends Component {
           </nav>
           <div id="dashboard">
             <NavbarTop toggle={this.handleSlideoutToggle}/>
-            {connecting ? (
+            {waitingForData ? (
               <Loader />
             ) : (
               <div className="columns dashboard_columns">
