@@ -68,16 +68,16 @@ export default class Documents extends Component {
     };
 
     getLegend = (data) => {
-        return data.map((key, i) => {
-            const { value, color, title } = key;
-            return (
-                <tr key={"legend" + i}>
-                    <td style={{ backgroundColor: color }} />
-                    <td>{title}</td>
-                    <td>{value}</td>
-                </tr>
-            );
-        });
+      return data.map((key, i) => {
+        const { value, color, title } = key;
+        return (
+          <tr key={"legend" + i}>
+            <td style={{ backgroundColor: color }} />
+            <td>{title}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      });
     };
 
     render() {
