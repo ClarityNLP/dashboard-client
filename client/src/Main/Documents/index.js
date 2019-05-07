@@ -3,7 +3,7 @@ import Documents from "./Documents";
 
 function mapStateToProps(state) {
     return {
-        app: state.app
+        documents: state.app.documents
     };
 }
 
