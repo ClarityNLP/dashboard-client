@@ -1,9 +1,7 @@
 import * as types from '../actions/types';
 
 const initialState = {
-  connecting: false,
-  socket: null,
-  socket_error: {},
+  waitingForData: true,
   documents: [],
   jobs: [],
   stats: [],
@@ -17,27 +15,23 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SETTING_SOCKET:
+    case 'RECEIVE_STATS':
+      const data = JSON.parse(action.data);
+      const {
+        documents,
+        library,
+        jobs,
+        stats,
+        performance
+      } = data;
       return {
         ...state,
-        connecting: true,
-        socket: action.data
-      };
-    case types.SETTING_SOCKET_SUCCESS:
-      return {
-        ...state,
-        connecting: false,
-        socket_error: {},
-        documents: JSON.parse(action.data.documents),
-        library: JSON.parse(action.data.library),
-        jobs: JSON.parse(action.data.jobs),
-        stats: JSON.parse(action.data.stats),
-        performance: JSON.parse(action.data.performance)
-      };
-    case types.SETTING_SOCKET_FAIL:
-      return {
-        ...state,
-        socket_error: action.data
+        waitingForData: false,
+        documents: JSON.parse(documents),
+        library: JSON.parse(library),
+        jobs: JSON.parse(jobs),
+        stats: JSON.parse(stats),
+        performance: JSON.parse(performance)
       };
     case types.RUNNING_NLPQL:
       return {
