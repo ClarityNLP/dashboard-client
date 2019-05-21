@@ -9,8 +9,7 @@ import configureStore from "./redux/store/store";
 import { createBrowserHistory } from "history";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-
-serviceWorker.register();
+// serviceWorker.register(); //TODO causing issue on USER_EXPIRED
 
 const history = createBrowserHistory();
 const initialState = {};
