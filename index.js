@@ -8,7 +8,7 @@ const wss = new WSS({ port: process.env.DASHBOARD_API_CONTAINER_PORT });
 getJobs = () => {
   const url = `http://${process.env.NLP_API_HOSTNAME}:${
     process.env.NLP_API_CONTAINER_PORT
-  }/phenotype_jobs/ALL`;
+  }/phenotype_jobs/INCOMPLETE`;
 
   return axios
     .get(url)
