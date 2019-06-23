@@ -68,11 +68,9 @@ getLibrary = () => {
 };
 
 getDocuments = () => {
-  const url =
-    `http://${process.env.NLP_SOLR_HOSTNAME}:${
-      process.env.NLP_SOLR_CONTAINER_PORT
-    }/solr/sample` +
-    '/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json';
+  const url = `http://${process.env.NLP_SOLR_HOSTNAME}:${
+    process.env.NLP_SOLR_CONTAINER_PORT
+  }/solr/sample/select?facet.field=source&facet=on&fl=facet_counts&indent=on&q=*:*&rows=1&wt=json`;
 
   return axios
     .get(url)
