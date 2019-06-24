@@ -3,7 +3,7 @@ import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from '../reducers/root_reducer';
 // MIDDLEWARES
 import thunk from 'redux-thunk';
-import { multiClientMiddleware } from 'redux-axios-middleware';
+import axiosMiddleware from 'redux-axios-middleware';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { redirectToOIDCSaga } from '../../auth/sagas';
@@ -34,7 +34,7 @@ export default function configureStore(initialState, apiClient, history) {
         sagaMiddleware,
         routerMiddleware(history),
         thunk,
-        multiClientMiddleware(apiClient, axiosMiddlewareOptions),
+        axiosMiddleware(apiClient, axiosMiddlewareOptions),
         logger
       )
     )

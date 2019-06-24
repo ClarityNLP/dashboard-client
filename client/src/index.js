@@ -13,20 +13,10 @@ import * as serviceWorker from './serviceWorker';
 const history = createBrowserHistory();
 const initialState = {};
 
-const apiClient = {
-  nlp: {
-    client: axios.create({
-      baseURL: `https://${window._env_.REACT_APP_API_HOST}`,
-      responseType: 'text'
-    })
-  },
-  solr: {
-    client: axios.create({
-      baseURL: `https://${window._env_.NLP_SOLR_CONTAINER_PORT}`,
-      responseType: 'text'
-    })
-  }
-};
+const apiClient = axios.create({
+  baseURL: `https://${window._env_.REACT_APP_API_HOST}`,
+  responseType: 'text'
+});
 
 const store = configureStore(initialState, apiClient, history);
 

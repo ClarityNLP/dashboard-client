@@ -5,6 +5,7 @@ const initialState = {
   waitingForStats: true,
   waitingForPerformance: true,
   waitingForDocuments: true,
+  waitingForLibrary: true,
   documents: [],
   jobs: [],
   stats: null,
@@ -117,6 +118,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         waitingForDocuments: false,
         documents: action.data
+      };
+    case types.SETTING_LIBRARY:
+      return {
+        ...state,
+        waitingForLibrary: true
+      };
+    case types.SETTING_LIBRARY_SUCCESS:
+      return {
+        ...state,
+        waitingForLibrary: false,
+        library: action.payload.data
+      };
+    case types.SETTING_LIBRARY_FAIL:
+      return {
+        ...state,
+        waitingForLibrary: false,
+        library: action.data
       };
     default:
       return state;

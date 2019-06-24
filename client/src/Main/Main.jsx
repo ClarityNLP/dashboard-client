@@ -38,6 +38,7 @@ export default class Main extends Component {
       });
 
       this.props.getDocuments();
+      this.props.getLibrary();
     }
   }
 
