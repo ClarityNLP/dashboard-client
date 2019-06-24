@@ -24,6 +24,20 @@ export default class Main extends Component {
     };
   }
 
+  componentWillMount() {
+    return this.props
+      .connectSocket()
+      .then(() => this.props.receiveStats())
+      .then(() => this.props.onSocketDisconnected())
+      .then(() => this.props.onSocketReconnecting())
+      .then(() => this.props.onSocketReconnectSuccess())
+      .then(() => this.props.onSocketReconnectFailure());
+  }
+
+  componentWillUnmount() {
+    return this.props.disconnectSocket();
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.oidc !== prevProps.oidc) {
       this.props.getJobs().then(() => {

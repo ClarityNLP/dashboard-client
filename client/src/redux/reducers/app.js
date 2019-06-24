@@ -1,6 +1,7 @@
 import * as types from '../actions/types';
 
 const initialState = {
+  waitingForData: false,
   waitingForJobs: true,
   waitingForStats: true,
   waitingForPerformance: true,
@@ -19,6 +20,18 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case types.RECEIVE_STATS:
+      const data = JSON.parse(action.data);
+      const { documents, library, jobs, stats, performance } = data;
+      return {
+        ...state,
+        waitingForData: false,
+        documents: JSON.parse(documents),
+        library: JSON.parse(library),
+        jobs: JSON.parse(jobs),
+        stats: JSON.parse(stats),
+        performance: JSON.parse(performance)
+      };
     case types.RUNNING_NLPQL:
       return {
         ...state,
