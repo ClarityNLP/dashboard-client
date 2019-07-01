@@ -17,8 +17,15 @@ export default class Results extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.app.jobs !== this.props.app.jobs) {
-      this.setContent();
+    if (
+      prevProps.app.jobs !== this.props.app.jobs ||
+      prevProps.app.stats !== this.props.app.stats ||
+      prevProps.app.performance !== this.props.app.performance
+    ) {
+      const { jobs, stats, performance } = this.props.app;
+      if (jobs.length > 0 && stats && performance) {
+        this.setContent();
+      }
     }
   }
 
@@ -51,19 +58,21 @@ export default class Results extends Component {
                   job.status
                 )}
               </td>
-              <td>{stats[id].final_subjects}</td>
+              <td>{stats ? stats[id].final_subjects : null}</td>
               <td>
-                {performance[id].accuracy_score !== 0 ? (
-                  performance[id].accuracy_score
-                ) : (
-                  <a
-                    onClick={() => {
-                      this.redirectToJob(id);
-                    }}
-                  >
-                    Validate
-                  </a>
-                )}
+                {performance ? (
+                  performance[id].accuracy_score !== 0 ? (
+                    performance[id].accuracy_score
+                  ) : (
+                    <a
+                      onClick={() => {
+                        this.redirectToJob(id);
+                      }}
+                    >
+                      Validate
+                    </a>
+                  )
+                ) : null}
               </td>
             </tr>
           );
