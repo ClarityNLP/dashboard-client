@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Card from '../Card';
-import { FaPlay, FaTrash } from 'react-icons/fa';
+import { FaPlay, FaTrash, FaExpand, FaCompress } from 'react-icons/fa';
 import ResponseModal from './ResponseModal';
 import ReactJson from 'react-json-view';
 import Loader from '../Loader';
@@ -8,8 +7,14 @@ export default class Library extends Component {
   constructor(props) {
     super(props);
 
+    this.min = 3;
+    this.max = 10;
+
     this.state = {
+      toggle: false,
       content: [],
+      limit: this.min,
+      page: 1,
       modal: null,
       loading: false
     };
@@ -34,14 +39,25 @@ export default class Library extends Component {
     }
   }
 
+  toggle = () => {
+    this.setState(
+      state => ({
+        toggle: !state.toggle,
+        limit: state.toggle ? this.min : this.max
+      }),
+      this.setContent
+    );
+  };
+
   setContent = () => {
+    const { limit, page } = this.state;
     const { library } = this.props.app;
 
     if (Array.isArray(library)) {
       if (library.length > 0) {
         let data = [];
-
-        const reverse_library = library.reverse();
+        const start = (page - 1) * limit;
+        const reverse_library = library.slice(start, start + limit).reverse();
 
         data = reverse_library.map((query, i) => {
           return (
@@ -143,24 +159,119 @@ export default class Library extends Component {
     });
   };
 
+  nextPage = () => {
+    const { library } = this.props.app;
+    const { limit, page } = this.state;
+    const last_page = Math.ceil(library.length / limit);
+    const next = page + 1;
+
+    if (next > last_page) {
+      return;
+    }
+
+    this.setState(
+      state => ({
+        page: state.page + 1
+      }),
+      this.setContent
+    );
+  };
+
+  prevPage = () => {
+    const { page } = this.state;
+    const prev = page - 1;
+
+    if (prev < 1) {
+      return;
+    }
+
+    this.setState(
+      state => ({
+        page: state.page - 1
+      }),
+      this.setContent
+    );
+  };
+
   render() {
-    const { content, modal, loading } = this.state;
+    const { toggle, content, modal, loading, page, limit } = this.state;
+    const { library } = this.props.app;
 
     return (
       <React.Fragment>
         {modal}
-        <Card
-          className='library'
-          heading='NLPQL'
-          cta_label='Add Query'
-          cta_href={'http://' + window._env_.REACT_APP_RESULTS_URL + '/runner'}
+        <div
+          className={
+            toggle
+              ? 'card-container expanded library'
+              : 'card-container library'
+          }
         >
-          {loading ? (
-            <Loader />
-          ) : (
-            <div className='library_container'>{content}</div>
-          )}
-        </Card>
+          <div className='card'>
+            <header className='card-header'>
+              <p className='card-header-title'>NLPQL</p>
+              <button
+                className='card-header-icon expand_button'
+                onClick={this.toggle}
+              >
+                {toggle ? <FaCompress /> : <FaExpand />}
+              </button>
+            </header>
+            <div className='card-content'>
+              {loading ? (
+                <Loader />
+              ) : (
+                <div className='library_container'>
+                  {toggle && library.length > 0 ? (
+                    <nav className='pagination'>
+                      <a
+                        className='pagination-previous'
+                        onClick={this.prevPage}
+                      >
+                        Previous
+                      </a>
+                      <a className='pagination-next' onClick={this.nextPage}>
+                        Next page
+                      </a>
+                      <ul className='pagination-list'>
+                        <li>
+                          <span className='pagination-ellipsis'>{page}</span>
+                        </li>
+                        <li>
+                          <span className='pagination-ellipsis'>of</span>
+                        </li>
+                        <li>
+                          <span className='pagination-ellipsis'>
+                            {Math.ceil(library.length / limit)}
+                          </span>
+                        </li>
+                      </ul>
+                    </nav>
+                  ) : null}
+                  {content}
+                </div>
+              )}
+            </div>
+            <div className='card-footer'>
+              <div
+                className={
+                  toggle
+                    ? 'column is-2 is-offset-10'
+                    : 'column is-4 is-offset-8'
+                }
+              >
+                <a
+                  href={
+                    'http://' + window._env_.REACT_APP_RESULTS_URL + '/runner'
+                  }
+                  className='button is-primary is-fullwidth'
+                >
+                  Add Query
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
