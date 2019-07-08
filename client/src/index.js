@@ -16,7 +16,8 @@ const initialState = {};
 const socketClient = new SocketClient();
 const apiClient = axios.create({
   baseURL: `https://${window._env_.REACT_APP_API_HOST}`,
-  responseType: 'text'
+  responseType: 'text',
+  withCredentials: true
 });
 
 const store = configureStore(initialState, socketClient, apiClient, history);
