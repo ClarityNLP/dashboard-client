@@ -45,7 +45,6 @@ export default class Results extends Component {
     if (Array.isArray(jobs)) {
       if (jobs.length > 0) {
         let data = [];
-
         const start = (page - 1) * limit;
         const limitedJobs = jobs.slice(start, start + limit);
 
@@ -185,7 +184,7 @@ export default class Results extends Component {
           </header>
           <div className='card-content'>
             <div className='results_container'>
-              {toggle ? (
+              {toggle && jobs.length > 0 ? (
                 <nav className='pagination'>
                   <a className='pagination-previous' onClick={this.prevPage}>
                     Previous
