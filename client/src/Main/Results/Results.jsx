@@ -8,7 +8,9 @@ export default class Results extends Component {
     super(props);
 
     this.state = {
-      content: []
+      content: [],
+      limit: 1,
+      page: 1
     };
   }
 
@@ -31,12 +33,16 @@ export default class Results extends Component {
 
   setContent = () => {
     const { jobs, stats, performance } = this.props.app;
+    const { limit, page } = this.state;
 
     if (Array.isArray(jobs)) {
       if (jobs.length > 0) {
         let data = [];
 
-        data = jobs.map((job, i) => {
+        const start = (page - 1) * limit;
+        const limitedJobs = jobs.slice(start, start + limit);
+
+        data = limitedJobs.map((job, i) => {
           const id = job.nlp_job_id;
 
           return (
