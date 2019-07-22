@@ -57,7 +57,7 @@ export default class Library extends Component {
       if (library.length > 0) {
         let data = [];
         const start = (page - 1) * limit;
-        const reverse_library = library.slice(start, start + limit).reverse();
+        const reverse_library = library.reverse().slice(start, start + limit);
 
         data = reverse_library.map((query, i) => {
           return (
