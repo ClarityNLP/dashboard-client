@@ -150,7 +150,7 @@ export default class Documents extends Component {
               }
             >
               <a
-                href={'http://' + window._env_.REACT_APP_INGEST_URL + '/csv'}
+                href={`${window.location.protocol}//${window._env_.INGEST_URL}/csv`}
                 className='button is-primary is-fullwidth'
               >
                 Add Documents
