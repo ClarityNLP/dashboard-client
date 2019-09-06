@@ -6,7 +6,7 @@ import {
 
 export const setSocket = () => dispatch => {
   const socket = new WebSocket(
-    `wss://${window._env_.REACT_APP_API_HOST}/dashboard`
+    `wss://${window._env_.API_HOST}/dashboard`
   );
 
   dispatch({

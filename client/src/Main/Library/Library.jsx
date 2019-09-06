@@ -125,8 +125,8 @@ export default class Library extends Component {
 
   viewQuery = id => {
     window.location =
-      'https://' +
-      window._env_.REACT_APP_RESULTS_URL +
+      window.location.protocol+ '//' +
+      window._env_.RESULTS_URL +
       '/runner?query_id=' +
       id;
   };
@@ -261,9 +261,7 @@ export default class Library extends Component {
                 }
               >
                 <a
-                  href={
-                    'http://' + window._env_.REACT_APP_RESULTS_URL + '/runner'
-                  }
+                  href={`${window.location.protocol}//${window._env_.RESULTS_URL}/runner`}
                   className='button is-primary is-fullwidth'
                 >
                   Add Query

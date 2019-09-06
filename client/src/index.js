@@ -11,11 +11,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 // serviceWorker.register(); //TODO causing issue on USER_EXPIRED
 
-const history = createBrowserHistory();
+const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL
+});
 const initialState = {};
 const socketClient = new SocketClient();
 const apiClient = axios.create({
-  baseURL: `https://${window._env_.REACT_APP_API_HOST}`,
+  baseURL: `${window.location.protocol}//${window._env_.API_HOST}`,
   responseType: 'text',
   withCredentials: true
 });

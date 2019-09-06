@@ -125,7 +125,7 @@ export default class Results extends Component {
 
   redirectToJob = job_id => {
     window.location =
-      'http://' + window._env_.REACT_APP_RESULTS_URL + '?job=' + job_id;
+      window.location.protocol + '//' + window._env_.RESULTS_URL + '?job=' + job_id;
   };
 
   nextPage = () => {
@@ -217,7 +217,7 @@ export default class Results extends Component {
               }
             >
               <a
-                href={'http://' + window._env_.REACT_APP_RESULTS_URL}
+                href={`${window.location.protocol}//${window._env_.RESULTS_URL}`}
                 className='button is-primary is-fullwidth'
               >
                 See All Results
