@@ -64,9 +64,9 @@ export default class Main extends Component {
 
   render() {
     const {
-      REACT_APP_INGEST_URL,
-      REACT_APP_RESULTS_URL,
-      REACT_APP_DOCUMETATION_URL
+      INGEST_URL,
+      RESULTS_URL,
+      DOCUMETATION_URL
     } = window._env_;
 
     const { waitingForData } = this.props.app;
@@ -82,7 +82,7 @@ export default class Main extends Component {
               Dashboard
             </a>
             <a
-              href={`http://${REACT_APP_INGEST_URL}`}
+              href={`${window.location.protocol}//${INGEST_URL}`}
               className='nav-link has-text-centered'
             >
               <span className='link-icon is-size-4'>
@@ -91,7 +91,7 @@ export default class Main extends Component {
               Documents
             </a>
             <a
-              href={`http://${REACT_APP_RESULTS_URL}/runner`}
+              href={`${window.location.protocol}//${RESULTS_URL}/runner`}
               className='nav-link has-text-centered'
             >
               <span className='link-icon is-size-4'>
@@ -100,7 +100,7 @@ export default class Main extends Component {
               Query Builder
             </a>
             <a
-              href={`http://${REACT_APP_RESULTS_URL}`}
+              href={`${window.location.protocol}//${RESULTS_URL}`}
               className='nav-link has-text-centered'
             >
               <span className='link-icon is-size-4'>
@@ -109,7 +109,7 @@ export default class Main extends Component {
               Results
             </a>
             <a
-              href={REACT_APP_DOCUMETATION_URL}
+              href={DOCUMETATION_URL}
               className='nav-link has-text-centered'
             >
               <span className='link-icon is-size-4'>
