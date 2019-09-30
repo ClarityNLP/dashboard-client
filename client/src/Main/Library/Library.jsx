@@ -34,7 +34,7 @@ export default class Library extends Component {
 
     if (prevProps.app.deleting_query !== this.props.app.deleting_query) {
       this.setState({
-        loading: true
+        loading: this.props.app.deleting_query
       });
     }
   }
@@ -74,6 +74,7 @@ export default class Library extends Component {
                   onClick={e => {
                     e.stopPropagation();
                     this.props.deleteQuery(query.nlpql_id);
+                    this.setContent();
                   }}
                 />
               </td>
@@ -125,7 +126,8 @@ export default class Library extends Component {
 
   viewQuery = id => {
     window.location =
-      window.location.protocol+ '//' +
+      window.location.protocol +
+      '//' +
       window._env_.RESULTS_URL +
       '/runner?query_id=' +
       id;
