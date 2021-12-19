@@ -14,7 +14,7 @@ else
   VAL="${PUBLIC_URL}"
 fi
 
-echo "  PUBLIC_URL: \"$VAL\"," >> ./env-config.js
+echo "PUBLIC_URL=$VAL" >> .env
 
 # Read each line in .env file
 # Each line represents key=value pairs
