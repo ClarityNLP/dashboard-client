@@ -7,15 +7,6 @@ touch ./env-config.js
 # Add assignment
 echo "window._env_ = {" >> ./env-config.js
 
-
-if [[ -z "${PUBLIC_URL}" ]]; then
-  VAL="http://localhost:3000"
-else
-  VAL="${PUBLIC_URL}"
-fi
-
-echo "PUBLIC_URL=$VAL" >> .env
-
 # Read each line in .env file
 # Each line represents key=value pairs
 while read -r line || [[ -n "$line" ]];

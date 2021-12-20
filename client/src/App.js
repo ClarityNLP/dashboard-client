@@ -10,7 +10,7 @@ const App = ({ store, history }) => (
     <Provider store={store}>
         <OidcProvider store={store} userManager={userManager}>
             <ConnectedRouter history={history}>
-                <Route path="" component={Main} />
+                <Route path="/" component={Main} />
             </ConnectedRouter>
         </OidcProvider>
     </Provider>
